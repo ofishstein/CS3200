@@ -128,32 +128,32 @@ INSERT INTO TheaterVendor(vendorId, location)
 VALUES (4, "Dallas");
 
 
-INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId)
-VALUES ("2018-02-28 13:15:32", 1, 2, 4);
+INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId, dollarAmount)
+VALUES ("2018-02-28 13:15:32", 1, 2, 4, 27);
 
-INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId)
-VALUES ("2003-02-23 12:25:26", 1, 2, 4);
+INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId, dollarAmount)
+VALUES ("2003-02-23 12:25:26", 1, 2, 4, 27);
 
-INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId)
-VALUES ("2017-09-13 02:00:48", 4, 3, 5);
+INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId, dollarAmount)
+VALUES ("2017-09-13 02:00:48", 4, 3, 5, 27);
 
-INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId)
-VALUES ("2018-01-15 18:49:23", 1, 2, 4);
+INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId, dollarAmount)
+VALUES ("2018-01-15 18:49:23", 1, 2, 4, 27);
 
-INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId)
-VALUES ("2018-01-01 00:00:01", 5, 1, 3);
+INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId, dollarAmount)
+VALUES ("2018-01-01 00:00:01", 5, 1, 3, 27);
 
-INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId)
-VALUES ("2013-09-04 03:04:05", 1, 2, 4);
+INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId, dollarAmount)
+VALUES ("2013-09-04 03:04:05", 1, 2, 4, 27);
 
-INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId)
-VALUES ("2014-08-30 20:37:17", 2, 5, 1);
+INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId, dollarAmount)
+VALUES ("2014-08-30 20:37:17", 2, 5, 1, 27);
 
-INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId)
-VALUES ("2011-6-30 23:59:59", 1, 2, 4);
+INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId, dollarAmount)
+VALUES ("2011-6-30 23:59:59", 1, 2, 4, 27);
 
-INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId)
-VALUES ("2002-05-26 22:23:24", 3, 4, 2);
+INSERT INTO MovieOrder(orderTime, vendorId, userId, movieId, dollarAmount)
+VALUES ("2002-05-26 22:23:24", 3, 4, 2, 27);
 
 
 INSERT INTO StreamingOrder(orderId, expiration)

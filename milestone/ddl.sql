@@ -1,3 +1,5 @@
+DROP DATABASE Project;
+
 CREATE DATABASE IF NOT EXISTS Project;
 
 CREATE TABLE IF NOT EXISTS Professional
@@ -89,12 +91,13 @@ CREATE TABLE IF NOT EXISTS TheaterVendor
 
 CREATE TABLE IF NOT EXISTS MovieOrder
 (
-    orderId int NOT NULL AUTO_INCREMENT,
+    confirmationNumber int NOT NULL AUTO_INCREMENT,
     orderTime DATETIME,
+    dollarAmount decimal NOT NULL,
     vendorId int NOT NULL,
     userId int NOT NULL,
     movieId int NOT NULL,
-    PRIMARY KEY(orderId),
+    PRIMARY KEY(confirmationNumber),
     FOREIGN KEY(vendorId) references Vendor (vendorId) on delete cascade,
     FOREIGN KEY(userId) references SiteUser (userId) on delete cascade,
     FOREIGN KEY(movieId) references Movie (movieId) on delete cascade
@@ -102,27 +105,27 @@ CREATE TABLE IF NOT EXISTS MovieOrder
 
 CREATE TABLE IF NOT EXISTS StreamingOrder
 (
-    orderId int NOT NULL UNIQUE,
+    confirmationNumber int NOT NULL UNIQUE,
     expiration DATETIME,
-    PRIMARY KEY (orderId),
-    FOREIGN KEY (orderId) references MovieOrder (orderId) on delete cascade
+    PRIMARY KEY (confirmationNumber),
+    FOREIGN KEY (confirmationNumber) references MovieOrder (confirmationNumber) on delete cascade
 );
 
 CREATE TABLE IF NOT EXISTS TheaterOrder
 (
-    orderId int NOT NULL UNIQUE,
+    confirmationNumber int NOT NULL UNIQUE,
     ticketCount int NOT NULL,
-    PRIMARY KEY (orderId),
-    FOREIGN KEY (orderId) references MovieOrder (orderId) on delete cascade
+    PRIMARY KEY (confirmationNumber),
+    FOREIGN KEY (confirmationNumber) references MovieOrder (confirmationNumber) on delete cascade
 );
 
 CREATE TABLE IF NOT EXISTS TheaterOrderSeats
 (
     orderSeatId int NOT NULL AUTO_INCREMENT,
-    orderId int NOT NULL,
+    confirmationNumber int NOT NULL,
     seatId VARCHAR(255),
     PRIMARY KEY(orderSeatId),
-    FOREIGN KEY (orderId) references TheaterOrder (orderId) on delete cascade
+    FOREIGN KEY (confirmationNumber) references TheaterOrder (confirmationNumber) on delete cascade
 );
 
 CREATE TABLE IF NOT EXISTS MoviePictures 
