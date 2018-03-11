@@ -70,7 +70,7 @@ Grouping -> 1 point
 Ordering fields -> 1 point
 Strong Motivation -> 1 point
 
-Score -> 6 Moderate
+Score -> 6 Complex
 */
 SELECT movieName
 FROM
