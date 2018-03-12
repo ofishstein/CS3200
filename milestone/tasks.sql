@@ -1,3 +1,35 @@
+/* Required Task A */
+INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
+VALUES ("Jeff", "Johnson", "112 Huntington Ave", "Boston", "02120", "USA", "jeff@gmail.com", "p@$$w0rd");
+
+/* Required Task B */
+INSERT INTO LovedMovies (movieId, userId)
+VALUES (1, 3);
+
+/* Required Task C */
+/* First Create the order */
+INSERT INTO MovieOrder(orderTime, dollarAmount, vendorId, userId, movieId)
+VALUES ("2007-03-20 14:27:21", 18.99, 13, 6, 9);
+
+/* Then assign a ticket count */
+INSERT INTO TheaterOrder(confirmationNumber, ticketCount)
+VALUES (13, 2);
+
+/* Finally, assign the seats */
+INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
+VALUES (13, "G10");
+INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
+VALUES (13, "G09");
+
+/* Required Task D */
+/* Create a relation between a person and the movie they're in */
+INSERT INTO Credit (role, personId, movieId)
+VALUES("Actor", 1, 5);
+
+/* Then, relate the actress to a character in the movie */
+INSERT INTO CreditCharacter (creditId, picture, name)
+VALUES ("1", "mr_incredible.jpg", "Mr. Incredible");
+
 /* Required Task E */
 SELECT studio 
 FROM
