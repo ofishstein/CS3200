@@ -89,6 +89,36 @@ VALUES ("Julie", "Frankel", "Rua do Farol 2", "Azoia", "2740-029", "Portugal", "
 INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
 VALUES ("Savannah", "Lawrence", "15 Royal Mint St.", "London", "E1 8LG", "UK", "savannah@gmail.com", "football");
 
+INSERT INTO SiteUserPhone (userId, phoneNumber)
+VALUES (1, "973-525-2625");
+
+INSERT INTO SiteUserPhone (userId, phoneNumber)
+VALUES (2, "666-535-8910");
+
+INSERT INTO SiteUserPhone (userId, phoneNumber)
+VALUES (3, "890-526-8873");
+
+INSERT INTO SiteUserPhone (userId, phoneNumber)
+VALUES (4, "973-525-2625");
+
+INSERT INTO SiteUserPhone (userId, phoneNumber)
+VALUES (5, "862-525-2625");
+
+INSERT INTO SiteUserPhone (userId, phoneNumber)
+VALUES (6, "973-525-2625");
+
+INSERT INTO SiteUserPhone (userId, phoneNumber)
+VALUES (7, "973-524-2825");
+
+INSERT INTO SiteUserPhone (userId, phoneNumber)
+VALUES (8, "333-525-2222");
+
+INSERT INTO SiteUserPhone (userId, phoneNumber)
+VALUES (9, "763-295-2511");
+
+INSERT INTO SiteUserPhone (userId, phoneNumber)
+VALUES (10, "889-555-4525");
+
 INSERT INTO Vendor (name)
 VALUES ("Netflix");
 
