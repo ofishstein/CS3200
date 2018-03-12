@@ -58,6 +58,14 @@ CREATE TABLE IF NOT EXISTS SiteUser
     PRIMARY KEY(userId)
 );
 
+CREATE TABLE IF NOT EXISTS SiteUserPhone
+(
+    userId int NOT NULL,
+    phoneNumber VARCHAR(255) NOT NULL,
+    PRIMARY KEY(userId, phoneNumber),
+    FOREIGN KEY(userId) references SiteUser (userId) on delete cascade
+);
+
 CREATE TABLE IF NOT EXISTS LovedMovies 
 (
     movieId int NOT NULL,
