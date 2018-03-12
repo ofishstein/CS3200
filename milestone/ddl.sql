@@ -55,7 +55,8 @@ CREATE TABLE IF NOT EXISTS SiteUser
     country VARCHAR(255),
     email VARCHAR(255) UNIQUE,
     password VARCHAR(255),
-    PRIMARY KEY(userId)
+    profilePicture VARCHAR(255),
+    PRIMARY KEY(userId, email)
 );
 
 CREATE TABLE IF NOT EXISTS SiteUserPhone
