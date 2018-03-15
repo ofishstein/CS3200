@@ -59,35 +59,35 @@ VALUES("Jaws", "Thriller", "1975-06-20", "Universal", "jaws.jpg");
 INSERT INTO Movie (name, genre, releaseDate, studio, coverPicture)
 VALUES("Casablanca", "Romance", "1943-01-23", "Warner Bros.", "casablanca.jpg");
 
-INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
-VALUES ("Jeff", "Johnson", "112 Huntington Ave", "Boston", "02120", "USA", "jeff@gmail.com", "p@$$w0rd");
+INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture)
+VALUES ("Jeff", "Johnson", "112 Huntington Ave", "Boston", "02120", "USA", "jeff@gmail.com", "p@$$w0rd", "bob.jpg");
 
-INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
-VALUES ("Max", "Brown", "212 Columbus Ave", "Boston", "02115", "USA", "max@hotmail.com", "123456");
+INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture )
+VALUES ("Max", "Brown", "212 Columbus Ave", "Boston", "02115", "USA", "max@hotmail.com", "123456", "bob.jpg");
 
-INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
-VALUES ("Rebecca", "Miller", "178 Tremont Ave", "San Francisco", "45987", "USA", "b3cca@comcast.net", "rebecca");
+INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture )
+VALUES ("Rebecca", "Miller", "178 Tremont Ave", "San Francisco", "45987", "USA", "b3cca@comcast.net", "rebecca", "bob.jpg");
 
-INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
-VALUES ("Kelly", "Davis", "25256 Vista Sorrento Parkway", "San Diego", "92130", "USA", "surfergirl@gmail.com", "iluvsurfing");
+INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture )
+VALUES ("Kelly", "Davis", "25256 Vista Sorrento Parkway", "San Diego", "92130", "USA", "surfergirl@gmail.com", "iluvsurfing", "bob.jpg");
 
-INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
-VALUES ("Mariel", "Wilson", "450 Orland Park Road", "Chicago", "12670", "USA", "windycity@gmail.com", "blackhawks");
+INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture )
+VALUES ("Mariel", "Wilson", "450 Orland Park Road", "Chicago", "12670", "USA", "windycity@gmail.com", "blackhawks", "bob.jpg");
 
-INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
-VALUES ("Jim", "Gormley", "1000 Rodeo Drive", "Beverly Hills", "90212", "USA", "jim@gmail.com", "654321");
+INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture )
+VALUES ("Jim", "Gormley", "1000 Rodeo Drive", "Beverly Hills", "90212", "USA", "jim@gmail.com", "654321", "bob.jpg");
 
-INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
-VALUES ("Emily", "Madaras", "361A Old Finch Ave", "Toronto", "M1B 5K7", "Canada", "emily@northeastern.edu", "applefangirl");
+INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture )
+VALUES ("Emily", "Madaras", "361A Old Finch Ave", "Toronto", "M1B 5K7", "Canada", "emily@northeastern.edu", "applefangirl", "bob.jpg");
 
-INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
-VALUES ("Zac", "Who", "1-5-2 Higashi-Shimbashi", "Tokyo", "105-7123", "Japan", "zac@intuit.com", "gfszdfeaffasd");
+INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture )
+VALUES ("Zac", "Who", "1-5-2 Higashi-Shimbashi", "Tokyo", "105-7123", "Japan", "zac@intuit.com", "gfszdfeaffasd", "bob.jpg");
 
-INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
-VALUES ("Julie", "Frankel", "Rua do Farol 2", "Azoia", "2740-029", "Portugal", "julie@gmail.com", "fido0210");
+INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture )
+VALUES ("Julie", "Frankel", "Rua do Farol 2", "Azoia", "2740-029", "Portugal", "julie@gmail.com", "fido0210", "bob.jpg");
 
-INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password)
-VALUES ("Savannah", "Lawrence", "15 Royal Mint St.", "London", "E1 8LG", "UK", "savannah@gmail.com", "football");
+INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture )
+VALUES ("Savannah", "Lawrence", "15 Royal Mint St.", "London", "E1 8LG", "UK", "savannah@gmail.com", "football", "bob.jpg");
 
 INSERT INTO SiteUserPhone (userId, phoneNumber)
 VALUES (1, "973-525-2625");
