@@ -37,29 +37,33 @@ FROM
 	FROM Movie m INNER JOIN MovieOrder mo ON m.movieId = mo.movieId
 	GROUP BY studio
 	ORDER BY revenue DESC
-	LIMT 10);
+	LIMIT 10);
 
 /* Required Task F */
+/* [PARAM] is a placeholder for the last name of the director that will be input by the user */
 SELECT m.name AS movieName
-FROM Movie m INNER JOIN Credit c ON m.movieId = c.movieId INNER JOIN Professional p ON c.creditId = p.creditId
-WHERE c.role = "Director" AND p.lastname = <PARAM>;
+FROM Movie m INNER JOIN Credit c ON m.movieId = c.movieId INNER JOIN Professional p ON c.personId = p.personId
+WHERE c.role = "Director" AND p.lastname = [PARAM];
 
 /* Required Task G */
+/* [PARAM] is a placeholder for a the user id that will be gleaned from the active user in session */
 SELECT m.name AS movieName, m.coverPicture AS moviePicture
 FROM SiteUser su INNER JOIN MovieOrder mo ON su.userId = mo.userId INNER JOIN Movie m ON m.movieId = mo.movieId
-WHERE su.userId = <PARAM>;
+WHERE su.userId = [PARAM];
 
 /* Required Task H */
-SELECT m.name AS movieName
+/* [PARAM1] is a placeholder for a first date of the current year and [PARAM2] is for the last date of the current year that will be calculated from the current year at time of session */ 
 FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userID
 EXCEPT
 SELECT m.name AS movieName
-FROM SiteUser su INNER JOIN OrderedMovies om ON su.userId = mo.userId 
+FROM SiteUser su INNER JOIN MovieOrder ON su.userId = mo.userId INNER JOIN Movie m ON m.movieId = mo.movieId
+WHERE m.releaseDate < [PARAM1] AND m.releaseDate > [PARAM2]
 
 /* Required Task I */
+/* <PARAM> is a placeholder for a movie title that will be input by the user for the info they want to find */
 SELECT p.firstname || " " || p.lastname AS movieName, c.role AS role, p.picture AS personPicture
 FROM Professional p INNER JOIN Credit c ON p.personId = c.personId INNER JOIN Movie m ON m.movieId = c.movieId
-WHERE m.name = <PARAM>;
+WHERE m.name = [PARAM];
 
 /* Required Task J */
 SELECT genre
@@ -68,4 +72,4 @@ FROM
 	FROM Movie m INNER JOIN MovieOrder mo ON m.movieId = mo.movieId
 	GROUP BY m.Genre
 	ORDER BY revenue DESC
-	LIMT 3);
+	LIMIT 3);
