@@ -19,8 +19,8 @@ Score -> 7 Complex
 SELECT studio 
 FROM
 	(SELECT m.studio AS studio, COUNT(*) AS genreCount
-	FROM SiteUser su INNER JOIN MovieOrders mo ON su.serId = mo.userId INNER JOIN Movie m ON m.movieId = mo.movieId
-	WHERE su.userId = <PARAM>
+	FROM SiteUser su INNER JOIN MovieOrder mo ON su.serId = mo.userId INNER JOIN Movie m ON m.movieId = mo.movieId
+	WHERE su.userId = [PARAM]
 	GROUP BY m.studio
 	ORDER BY genreCount DESC
 	LIMIT 3);
@@ -48,8 +48,8 @@ Score ->  7 Complex
 SELECT genre 
 FROM
 	(SELECT m.Genre AS genre, COUNT(*) AS genreCount
-	FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userId INNER JOIN Movie m ON m.movieId = mo.movieId
-	WHERE su.userId = <PARAM>
+	FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userId INNER JOIN Movie m ON m.movieId = lm.movieId
+	WHERE su.userId = [PARAM]
 	GROUP BY m.Genre
 	ORDER BY genreCount DESC
 	LIMIT 1);
@@ -102,7 +102,7 @@ SELECT movieName
 FROM
 	(SELECT m.name AS movieName, SUM(mo.dollarAmount) AS revenue
 	FROM Movie m INNER JOIN Credit c ON m.movieId = c.creditId INNER JOIN MovieOrder mo ON mo.movieId = m.movieId INNER JOIN Professional p ON p.personId = c.personId
-	WHERE c.role = "Director" AND p.firstname || " " || p.lastname = <PARAM>
+	WHERE c.role = "Director" AND p.firstname || " " || p.lastname = [PARAM]
 	GROUP BY m.name
 	ORDER BY revenue DESC);
 
@@ -129,8 +129,8 @@ Score -> 7 Complex
 SELECT movieName
 FROM
 	(SELECT m.Name AS movieName, SUM(mo.dollarAmount) AS revenue
-	FROM Movie m INNER JOIN MovieOrder mo ON m.movieId = mo.movieId INNER JOIN TheaterOrder to ON mo.confirmationNumber = to.confirmationNumber
-	WHERE m.releaseDate < <PARAM> AND m.releaseDate > <PARAM>
+	FROM Movie m INNER JOIN MovieOrder mo ON m.movieId = mo.movieId INNER JOIN TheaterOrder tho ON mo.confirmationNumber = tho.confirmationNumber
+	WHERE m.releaseDate < [PARAM] AND m.releaseDate > <[PARAM]
 	GROUP BY m.Name
 	ORDER BY revenue DESC);
 
