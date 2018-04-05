@@ -111,7 +111,7 @@ FROM
 /* 
 Report: 5
 
-Purpose: Find this year's box office hits
+Purpose: Find a year's box office hits
 
 Usefulness: Most movie streaming buying companies software suggest the box office hits on their front page as these are the most attractive to users generally.
 
