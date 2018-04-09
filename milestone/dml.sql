@@ -1,3 +1,4 @@
+/* Inserts for Professional */
 INSERT INTO Professional (firstName, lastName, picture, dob) 
 VALUES("Joseph", "Wood", "joseph.jpg", "1995-05-26");
 
@@ -28,37 +29,100 @@ VALUES("Brigid", "Greaney", "brigid.jpg", "2000-06-30");
 INSERT INTO Professional (firstName, lastName, picture, dob) 
 VALUES("Duane", "Swift", "duane.jpg", "1997-12-18");
 
+/* Inserts for Genre */
+INSERT INTO Genre (genreName)
+VALUES("Action");
 
-INSERT INTO Movie (name, genre, releaseDate, studio, coverPicture)
-VALUES("The Incredibles", "Action", "2004-11-05", "Pixar", "incredibles.jpg");
+INSERT INTO Genre (genreName)
+VALUES("Adventure");
 
-INSERT INTO Movie (name, genre, releaseDate, studio, coverPicture)
-VALUES("Finding Nemo", "Adventure", "2003-05-30", "Pixar", "finding_nemo.jpg");
+INSERT INTO Genre (genreName)
+VALUES("Animation");
 
-INSERT INTO Movie (name, genre, releaseDate, studio, coverPicture)
-VALUES("Lion King", "Animation", "1994-07-19", "Disney", "lion_king.jpg");
+INSERT INTO Genre (genreName)
+VALUES("Drama");
 
-INSERT INTO Movie (name, genre, releaseDate, studio, coverPicture)
-VALUES("Deadpool", "Action", "2016-02-12", "Fox", "deadpool.jpg");
+INSERT INTO Genre (genreName)
+VALUES("Comedy");
 
-INSERT INTO Movie (name, genre, releaseDate, studio, coverPicture)
-VALUES("The Dark Knight", "Action", "2008-07-18", "Warner Bros.", "the_dark_knight.jpg");
+INSERT INTO Genre (genreName)
+VALUES("Thriller");
 
-INSERT INTO Movie (name, genre, releaseDate, studio, coverPicture)
-VALUES("Titanic", "Drama", "1997-12-19", "Fox", "titanic.jpg");
+INSERT INTO Genre (genreName)
+VALUES("Romance");
 
-INSERT INTO Movie (name, genre, releaseDate, studio, coverPicture)
-VALUES("Interstellar", "Drama", "2014-10-26", "Paramount", "interstellar.jpg");
+INSERT INTO Genre (genreName)
+VALUES("Horror");
 
-INSERT INTO Movie (name, genre, releaseDate, studio, coverPicture)
-VALUES("Despicable Me", "Comedy", "2010-07-09", "Universal", "despicable_me.jpg");
+INSERT INTO Genre (genreName)
+VALUES("Childrens");
 
-INSERT INTO Movie (name, genre, releaseDate, studio, coverPicture)
-VALUES("Jaws", "Thriller", "1975-06-20", "Universal", "jaws.jpg");
+INSERT INTO Genre (genreName)
+VALUES("Documentary");
 
-INSERT INTO Movie (name, genre, releaseDate, studio, coverPicture)
-VALUES("Casablanca", "Romance", "1943-01-23", "Warner Bros.", "casablanca.jpg");
+/* Inserts for Studio */
+INSERT INTO Studio (studioName)
+VALUES("Pixar");
 
+INSERT INTO Studio (studioName)
+VALUES("Disney");
+
+INSERT INTO Studio (studioName)
+VALUES("Fox");
+
+INSERT INTO Studio (studioName)
+VALUES("Warner Bros.");
+
+INSERT INTO Studio (studioName)
+VALUES("Paramount");
+
+INSERT INTO Studio (studioName)
+VALUES("Universal");
+
+INSERT INTO Studio (studioName)
+VALUES("IFC");
+
+INSERT INTO Studio (studioName)
+VALUES("Viacom");
+
+INSERT INTO Studio (studioName)
+VALUES("Sony");
+
+INSERT INTO Studio (studioName)
+VALUES("Columbia");
+
+/* Inserts for Movie */
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("The Incredibles", 1, "2004-11-05", 1, "incredibles.jpg");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Finding Nemo", 2, "2003-05-30", 1, "finding_nemo.jpg");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Lion King", 3, "1994-07-19", 2, "lion_king.jpg");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Deadpool", 1, "2016-02-12", 3, "deadpool.jpg");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("The Dark Knight", 1, "2008-07-18", 4, "the_dark_knight.jpg");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Titanic", 4, "1997-12-19", 3, "titanic.jpg");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Interstellar", 4, "2014-10-26", 5, "interstellar.jpg");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Despicable Me", 5, "2010-07-09", 6, "despicable_me.jpg");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Jaws", 6, "1975-06-20", 6, "jaws.jpg");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Casablanca", 7, "1943-01-23", 4, "casablanca.jpg");
+
+/* Inserts for SiteUser */
 INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture)
 VALUES ("Jeff", "Johnson", "112 Huntington Ave", "Boston", "02120", "USA", "jeff@gmail.com", "p@$$w0rd", "bob.jpg");
 
@@ -89,6 +153,7 @@ VALUES ("Julie", "Frankel", "Rua do Farol 2", "Azoia", "2740-029", "Portugal", "
 INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture )
 VALUES ("Savannah", "Lawrence", "15 Royal Mint St.", "London", "E1 8LG", "UK", "savannah@gmail.com", "football", "bob.jpg");
 
+/* Inserts for SiteUserPhone */
 INSERT INTO SiteUserPhone (userId, phoneNumber)
 VALUES (1, "973-525-2625");
 
@@ -119,6 +184,7 @@ VALUES (9, "763-295-2511");
 INSERT INTO SiteUserPhone (userId, phoneNumber)
 VALUES (10, "889-555-4525");
 
+/* Inserts for Vendor */
 INSERT INTO Vendor (name)
 VALUES ("Netflix");
 
@@ -179,7 +245,7 @@ VALUES ("MJR");
 INSERT INTO Vendor (name)
 VALUES ("Marquee");
 
-
+/* Inserts for Credit */
 INSERT INTO Credit (role, personId, movieId)
 VALUES("Actor", 1, 5);
 
@@ -210,7 +276,7 @@ VALUES("Matte Painter", 9, 6);
 INSERT INTO Credit (role, personId, movieId)
 VALUES("Recording Engineer", 10, 7);
 
-
+/* Inserts for Credite Character */
 INSERT INTO CreditCharacter (creditId, picture, name)
 VALUES ("1", "mr_incredible.jpg", "Mr. Incredible");
 
@@ -241,7 +307,7 @@ VALUES ("9", "matt.jpg", "Matt Hopper");
 INSERT INTO CreditCharacter (creditId, picture, name)
 VALUES ("10", "rick.jpg", "Rick Blaine");
 
-
+/* Inserts for Loved Movies */
 INSERT INTO LovedMovies (movieId, userId)
 VALUES (1, 3);
 
@@ -272,9 +338,7 @@ VALUES (9, 10);
 INSERT INTO LovedMovies (movieId, userId)
 VALUES (10, 7);
 
-
-
-
+/* Inserts for StreamingVendor */
 INSERT INTO StreamingVendor(vendorId, url)
 VALUES (1, "www.netflix.com");
 
@@ -305,7 +369,7 @@ VALUES (9, "www.e.com");
 INSERT INTO StreamingVendor(vendorId, url)
 VALUES (10, "www.espn.com");
 
-
+/* Inserts for Theater Vendor */
 INSERT INTO TheaterVendor(vendorId, location)
 VALUES (11, "Fenway");
 
@@ -336,7 +400,7 @@ VALUES (19, "Charleston");
 INSERT INTO TheaterVendor(vendorId, location)
 VALUES (20, "New York");
 
-
+/* Inserts for Movie Order */
 INSERT INTO MovieOrder(orderTime, dollarAmount, vendorId, userId, movieId)
 VALUES ("2018-02-28 13:15:32", 0.0, 1, 9, 1);
 
@@ -397,6 +461,7 @@ VALUES ("2015-11-21 03:05:07", 15.0, 19, 1, 10);
 INSERT INTO MovieOrder(orderTime, dollarAmount, vendorId, userId, movieId)
 VALUES ("2016-10-31 04:06:08", 40.0, 20, 8, 1);
 
+/* Inserts for Theater Order */
 INSERT INTO TheaterOrder(confirmationNumber, ticketCount)
 VALUES (11, 1);
 
@@ -427,7 +492,7 @@ VALUES (19, 1);
 INSERT INTO TheaterOrder(confirmationNumber, ticketCount)
 VALUES (20, 2);
 
-
+/* Inserts for Streaming Order */
 INSERT INTO StreamingOrder(confirmationNumber, expiration)
 VALUES (1, "2018-04-21 11:16:28");
 
@@ -458,83 +523,7 @@ VALUES (9, "2010-05-21 06:42:51");
 INSERT INTO StreamingOrder(confirmationNumber, expiration)
 VALUES (10, "2009-11-30 23:37:10");
 
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (11, "B8");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (12, "C2");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (12, "C3");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (12, "C1");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (12, "C4");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (12, "C5");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (12, "C6");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (13, "G10");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (13, "G09");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (14, "E5");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (14, "E6");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (15, "B3");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (15, "B4");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (16, "L1");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (17, "A10");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (17, "A11");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (17, "A9");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (17, "A12");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (17, "A8");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (18, "H3");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (18, "H4");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (18, "H2");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (19, "K20");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (20, "D8");
-
-INSERT INTO TheaterOrderSeats(confirmationNumber, seatId)
-VALUES (20, "D7");
-
-
+/* Inserts for Movie Pictures */
 INSERT INTO MoviePictures(movieId, picture)
 VALUES (1, "dash.png");
 
