@@ -31,13 +31,13 @@ INSERT INTO CreditCharacter (creditId, picture, name)
 VALUES ("1", "mr_incredible.jpg", "Mr. Incredible");
 
 /* Required Task E */
-SELECT studio 
+SELECT res.studio 
 FROM
-	(SELECT m.studio AS studio, SUM(mo.dollarAmount) AS revenue
-	FROM Movie m INNER JOIN MovieOrder mo ON m.movieId = mo.movieId
-	GROUP BY studio
+	(SELECT s.studioName AS studio, SUM(mo.dollarAmount) AS revenue
+	FROM Movie m INNER JOIN Studio s ON m.studioId = s.studioId INNER JOIN MovieOrder mo ON m.movieId = mo.movieId
+	GROUP BY s.studioName
 	ORDER BY revenue DESC
-	LIMIT 10);
+	LIMIT 10) res;
 
 /* Required Task F */
 /* [PARAM] is a placeholder for the last name of the director that will be input by the user */
@@ -66,10 +66,10 @@ FROM Professional p INNER JOIN Credit c ON p.personId = c.personId INNER JOIN Mo
 WHERE m.name = [PARAM];
 
 /* Required Task J */
-SELECT genre
+SELECT res.genre
 FROM
-	(SELECT m.genre AS genre, SUM(mo.dollarAmount) AS revenue
-	FROM Movie m INNER JOIN MovieOrder mo ON m.movieId = mo.movieId
-	GROUP BY m.Genre
+	(SELECT g.genreName AS genre, SUM(mo.dollarAmount) AS revenue
+	FROM Movie m INNER JOIN Genre g ON m.genreId = g.genreId INNER JOIN MovieOrder mo ON m.movieId = mo.movieId
+	GROUP BY g.genreName
 	ORDER BY revenue DESC
-	LIMIT 3);
+	LIMIT 3) res;

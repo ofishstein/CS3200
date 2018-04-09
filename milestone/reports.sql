@@ -16,14 +16,14 @@ Strong Motivation -> 1 point
 
 Score -> 7 Complex
 */
-SELECT studio 
+SELECT res.studio 
 FROM
-	(SELECT m.studio AS studio, COUNT(*) AS genreCount
-	FROM SiteUser su INNER JOIN MovieOrder mo ON su.serId = mo.userId INNER JOIN Movie m ON m.movieId = mo.movieId
+	(SELECT s.studioName AS studio, COUNT(*) AS genreCount
+	FROM SiteUser su INNER JOIN MovieOrder mo ON su.userId = mo.userId INNER JOIN Movie m ON m.movieId = mo.movieId INNER JOIN Studio s ON m.studioId = s.studioId
 	WHERE su.userId = [PARAM]
-	GROUP BY m.studio
+	GROUP BY s.studioId
 	ORDER BY genreCount DESC
-	LIMIT 3);
+	LIMIT 3) res;
 
 
 
@@ -45,14 +45,14 @@ Ordering fields -> 1 point
 
 Score ->  7 Complex
 */
-SELECT genre 
+SELECT res.genre 
 FROM
-	(SELECT m.Genre AS genre, COUNT(*) AS genreCount
-	FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userId INNER JOIN Movie m ON m.movieId = lm.movieId
+	(SELECT g.genreName AS genre, COUNT(*) AS genreCount
+	FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userId INNER JOIN Movie m ON m.movieId = lm.movieId INNER JOIN Genre g ON m.genreId = g.genreId
 	WHERE su.userId = [PARAM]
-	GROUP BY m.Genre
+	GROUP BY g.genreId
 	ORDER BY genreCount DESC
-	LIMIT 1);
+	LIMIT 1) res;
 
 
 /* 
