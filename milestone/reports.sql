@@ -77,7 +77,7 @@ FROM
 	(SELECT m.Name AS movieName, COUNT(*) AS movieCount
 	FROM LovedMovies lm INNER JOIN Movie m ON lm.movieId = m.movieId INNER JOIN MovieOrder mo ON mo.movieId = m.movieId INNER JOIN StreamingOrder so ON so.confirmationNumber = mo.confirmationNumber
 	GROUP BY m.Name
-	ORDER BY movieCount DESC);
+	ORDER BY movieCount DESC) res;
 
 
 /* 
@@ -104,7 +104,7 @@ FROM
 	FROM Movie m INNER JOIN Credit c ON m.movieId = c.creditId INNER JOIN MovieOrder mo ON mo.movieId = m.movieId INNER JOIN Professional p ON p.personId = c.personId
 	WHERE c.role = "Director" AND p.firstname || " " || p.lastname = [PARAM]
 	GROUP BY m.name
-	ORDER BY revenue DESC);
+	ORDER BY revenue DESC) res;
 
 
 
@@ -132,6 +132,6 @@ FROM
 	FROM Movie m INNER JOIN MovieOrder mo ON m.movieId = mo.movieId INNER JOIN TheaterOrder tho ON mo.confirmationNumber = tho.confirmationNumber
 	WHERE m.releaseDate < [PARAM] AND m.releaseDate > <[PARAM]
 	GROUP BY m.Name
-	ORDER BY revenue DESC);
+	ORDER BY revenue DESC) res;
 
 
