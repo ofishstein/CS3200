@@ -58,7 +58,7 @@ FROM
 /* 
 Report: 3
 
-Purpose: Find the most loved movies by all users that are available for streaming
+Purpose: Find the most loved movies from a certain year by all users that are available for streaming
 
 Usefulness: This is super helpful in telling users which movies are popular so that they can be suggested to check those out
 
@@ -76,6 +76,7 @@ SELECT movieName
 FROM
 	(SELECT m.Name AS movieName, COUNT(*) AS movieCount
 	FROM LovedMovies lm INNER JOIN Movie m ON lm.movieId = m.movieId INNER JOIN MovieOrder mo ON mo.movieId = m.movieId INNER JOIN StreamingOrder so ON so.confirmationNumber = mo.confirmationNumber
+	WHERE m.releaseDate < [PARAM] AND m.releaseDate > <[PARAM]
 	GROUP BY m.Name
 	ORDER BY movieCount DESC) res;
 
