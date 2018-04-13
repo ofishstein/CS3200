@@ -13,7 +13,7 @@ app.listen(3000, function() {
 
 var host="localhost";
 var user="root";
-var password="spot108";
+var password="fillin";
 var database="Project";
 
 var con = sql.createConnection({
