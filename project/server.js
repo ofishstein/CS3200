@@ -86,6 +86,7 @@ app.post('/credit/:role/:personid/:movieid', function(req, res) {
     })
 });
 
+
 app.get('/revenue', function(req, res) {
     var query='SELECT * FROM' +
         '(SELECT s.studioName AS studio, SUM(mo.dollarAmount) AS revenue ' +
@@ -97,7 +98,7 @@ app.get('/revenue', function(req, res) {
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
-            res.send("Error")
+            res.send("Error");
         }
         else res.send(results);
     })
@@ -106,42 +107,32 @@ app.get('/revenue', function(req, res) {
 
 
 app.get('/movies/:directorsName', function(req, res) {
-    var query = 'SELECT m.name AS movieName, p.lastName ' +
-        'FROM Movie m INNER JOIN Credit c ON m.movieId = c.movieId ' +
-        'INNER JOIN Professional p ON c.personId = p.personId ' +
-        'WHERE c.role = "Director"';
+    var query = `SELECT m.name AS movieName, p.lastName ` +
+        `FROM Movie m INNER JOIN Credit c ON m.movieId = c.movieId ` +
+        `INNER JOIN Professional p ON c.personId = p.personId ` +
+        `WHERE c.role = "Director AND` +
+        `lastName=${req.params.lastName}`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
             res.send("Error")
         }
-        var movies = [];
-        for(var i = 0; i < results.length; i++) {
-            if (results[i].lastName == req.params.directorsName) {
-                movies.push(results[i])
-            }
-        }
-        res.send(movies);
+        res.send(results);
     })
 });
 
 
 app.get('/moviesPics/:userid', function(req, res) {
-    var query = 'SELECT m.name AS movieName, m.coverPicture AS moviePicture, su.userId ' +
-        'FROM SiteUser su INNER JOIN MovieOrder mo ON su.userId = mo.userId ' +
-        'INNER JOIN Movie m ON m.movieId = mo.movieId;';
+    var query = `SELECT m.name AS movieName, m.coverPicture AS moviePicture, su.userId ` +
+        `FROM SiteUser su INNER JOIN MovieOrder mo ON su.userId = mo.userId ` +
+        `INNER JOIN Movie m ON m.movieId = mo.movieId ` +
+        `WHERE userId=${req.params.userid}`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
-            res.send("Error")
+            res.send("Error");
         }
-        var movies = [];
-        for(var i = 0; i < results.length; i++) {
-            if (results[i].userId == req.params.userid) {
-                movies.push(results[i]);
-            }
-        }
-        res.send(movies);
+        res.send(results);
     })
 });
 
@@ -150,15 +141,15 @@ app.get('/moviesPics/:userid', function(req, res) {
 
 
 app.get('/moviesLoved/:userid', function(req, res) {
-    var query = 'FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userID ' +
-    'EXCEPT ' +
-    'SELECT m.name AS movieName ' +
-    'FROM SiteUser su INNER JOIN MovieOrder ON su.userId = mo.userId ' +
-    'INNER JOIN Movie m ON m.movieId = mo.movieId';
+    var query = `FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userID ` +
+        `EXCEPT ` +
+        `SELECT m.name AS movieName ` +
+        `FROM SiteUser su INNER JOIN MovieOrder ON su.userId = mo.userId ` +
+        `INNER JOIN Movie m ON m.movieId = mo.movieId; `;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
-            res.send("Error")
+            res.send("Error");
         }
         var movies = [];
         for(var i = 0; i < results.length; i++) {
@@ -172,22 +163,17 @@ app.get('/moviesLoved/:userid', function(req, res) {
 
 
 app.get('/credited/:name', function(req, res) {
-    var query = 'SELECT p.firstname || " " || p.lastname AS movieName, ' +
-        'c.role AS role, p.picture AS personPicture, m.name ' +
-        'FROM Professional p INNER JOIN Credit c ON p.personId = c.personId ' +
-        'INNER JOIN Movie m ON m.movieId = c.movieId;';
+    var query = `SELECT p.firstname || " " || p.lastname AS movieName, ` +
+        `c.role AS role, p.picture AS personPicture, m.name ` +
+        `FROM Professional p INNER JOIN Credit c ON p.personId = c.personId ` +
+        `INNER JOIN Movie m ON m.movieId = c.movieId ` +
+        `WHERE Name=${req.params.name}`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
             res.send("Error")
         }
-        var people = [];
-        for(var i = 0; i < results.length; i++) {
-            if (results[i].name=req.params.name) {
-                people.push(results[i]);
-            }
-        }
-        res.send(people);
+        res.send(results);
     })
 });
 
@@ -210,35 +196,30 @@ app.get('/revenue/:genre', function(req, res) {
     })
 });
 
-// app.get('/login/:email/:password', function(req, res) {
-//     var query='SELECT * FROM SiteUser';
-//     con.query(query, function(err, results) {
-//         if (err) {
-//             console.log(err);
-//             res.send("Error")
-//         }
-//         for(var i = 0; i < results.length; i++) {
-//             if (results[i].) {
-//                 res.send(results[i].userId);
-//             }
-//         }
-//     })
-// });
-//
-// app.get('/theater/:city', function(req, res) {
-//     var query='SELECT * FROM TheaterVendor';
-//     con.query(query, function(err, results) {
-//         if (err) {
-//             console.log(err);
-//             res.send("Error")
-//         }
-//         for(var i = 0; i < results.length; i++) {
-//             if (results[i].) {
-//                 res.send(results[i].userId);
-//             }
-//         }
-//     })
-// });
+app.get('/login/:email/:password', function(req, res) {
+    var query=`SELECT * FROM SiteUser ` +
+        `WHERE email=${req.params.email} AND ` +
+        `password=${req.params.email}`;
+    con.query(query, function(err, results) {
+        if (err) {
+            console.log(err);
+            res.send("Error")
+        }
+        res.send(results);
+    })
+});
+
+app.get('/theater/:city', function(req, res) {
+    var query='SELECT * FROM TheaterVendor' +
+        'WHERE location=city';
+    con.query(query, function(err, results) {
+        if (err) {
+            console.log(err);
+            res.send("Error")
+        }
+        res.send(results);
+    })
+});
 
 //REPORT QUERIES
 
@@ -317,7 +298,7 @@ app.get('/directorsBestSelling/:first/:last', function(req, res) {
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
-            res.send("Error")
+            res.send("Error");
         }
         res.send(results);
     })
