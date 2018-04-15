@@ -3,6 +3,23 @@ var express = require('express'),
 
 var app = express();
 
+app.use((req, res, next) => {
+  const origin = req.get('origin');
+
+  // TODO Add origin validation
+  res.header('Access-Control-Allow-Origin', origin);
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, Pragma');
+
+  // intercept OPTIONS method
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(204);
+  } else {
+    next();
+  }
+});
+
 app.get('/', function(req, res) {
     res.send('Hello World!');
 });
@@ -13,8 +30,8 @@ app.listen(3000, function() {
 
 var host="localhost";
 var user="root";
-var password="fillin";
-var database="Project";
+var password="DLkmmAY!!!";
+var database="dbdesignproject";
 
 var con = sql.createConnection({
     host: host,
@@ -106,12 +123,26 @@ app.get('/revenue', function(req, res) {
 
 
 
-app.get('/movies/:directorsName', function(req, res) {
-    var query = `SELECT m.name AS movieName, p.lastName ` +
+app.get('/movies/:lastName', function(req, res) {
+    var query = `SELECT m.name AS movieName, m.coverPicture AS moviePicture, m.releaseDate AS releaseDate, m.movieId AS id ` +
         `FROM Movie m INNER JOIN Credit c ON m.movieId = c.movieId ` +
         `INNER JOIN Professional p ON c.personId = p.personId ` +
-        `WHERE c.role = "Director AND` +
-        `lastName=${req.params.lastName}`;
+        `WHERE c.role = "Director" AND ` +
+        `p.lastName='${req.params.lastName}'`;
+    con.query(query, function(err, results) {
+        if (err) {
+            console.log(err);
+            res.send("Error")
+        }
+        res.send(results);
+    })
+});
+
+app.get('/movie/:movieName', function(req, res) {
+    var query = `SELECT m.name AS movieName, m.coverPicture AS moviePicture, m.releaseDate AS releaseDate, m.movieId AS id ` +
+        `FROM Movie m INNER JOIN Credit c ON m.movieId = c.movieId ` +
+        `INNER JOIN Professional p ON c.personId = p.personId ` +
+        `WHERE m.name='${req.params.movieName}'`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
@@ -123,10 +154,10 @@ app.get('/movies/:directorsName', function(req, res) {
 
 
 app.get('/moviesPics/:userid', function(req, res) {
-    var query = `SELECT m.name AS movieName, m.coverPicture AS moviePicture, su.userId ` +
+    var query = `SELECT m.name AS movieName, m.coverPicture AS moviePicture, su.userId, m.releaseDate AS releaseDate, m.movieId AS id ` +
         `FROM SiteUser su INNER JOIN MovieOrder mo ON su.userId = mo.userId ` +
         `INNER JOIN Movie m ON m.movieId = mo.movieId ` +
-        `WHERE userId=${req.params.userid}`;
+        `WHERE su.userId=${req.params.userid}`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
@@ -139,7 +170,7 @@ app.get('/moviesPics/:userid', function(req, res) {
 
 //need to talk to Karan about the date field and pictures
 
-
+//needs to specify that the movies were released this year
 app.get('/moviesLoved/:userid', function(req, res) {
     var query = `FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userID ` +
         `EXCEPT ` +
@@ -153,7 +184,7 @@ app.get('/moviesLoved/:userid', function(req, res) {
         }
         var movies = [];
         for(var i = 0; i < results.length; i++) {
-            if (results[i].releaseDate<req.params.date && results[i].realeaseDate>req.params.date) {
+            if (results[i].releaseDate<req.params.date && results[i].releaseDate>req.params.date) {
                 movies.push(results[i]);
             }
         }
@@ -180,7 +211,7 @@ app.get('/credited/:name', function(req, res) {
 
 
 app.get('/revenue/:genre', function(req, res) {
-    var query='SELECT res.genre FROM' +
+    var query='SELECT res.genre, revenue FROM' +
         '(SELECT g.genreName AS genre, SUM(mo.dollarAmount) AS revenue ' +
         'FROM Movie m INNER JOIN Genre g ON m.genreId = g.genreId ' +
         'INNER JOIN MovieOrder mo ON m.movieId = mo.movieId ' +
@@ -197,9 +228,9 @@ app.get('/revenue/:genre', function(req, res) {
 });
 
 app.get('/login/:email/:password', function(req, res) {
-    var query=`SELECT * FROM SiteUser ` +
-        `WHERE email=${req.params.email} AND ` +
-        `password=${req.params.email}`;
+    var query=`SELECT * FROM SiteUser su ` +
+        `WHERE email='${req.params.email}' AND ` +
+        `password='${req.params.password}'`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
