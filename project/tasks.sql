@@ -53,10 +53,10 @@ WHERE su.userId = [PARAM];
 
 /* Required Task H */
 /* [PARAM1] is a placeholder for a first date of the current year and [PARAM2] is for the last date of the current year that will be calculated from the current year at time of session */ 
-FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userID
+SELECT * FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userID
 EXCEPT
 SELECT m.name AS movieName
-FROM SiteUser su INNER JOIN MovieOrder ON su.userId = mo.userId INNER JOIN Movie m ON m.movieId = mo.movieId
+FROM SiteUser su INNER JOIN MovieOrder mo ON su.userId = mo.userId INNER JOIN Movie m ON m.movieId = mo.movieId
 WHERE m.releaseDate < [PARAM1] AND m.releaseDate > [PARAM2]
 
 /* Required Task I */
