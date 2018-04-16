@@ -13,14 +13,20 @@ app.listen(3000, function() {
 
 var host="localhost";
 var user="root";
-var password="FILL IN";
-var database="FILL IN";
+var password="spot108";
+var database="Project";
 
 var con = sql.createConnection({
     host: host,
     user: user,
     password: password,
     database: database
+});
+
+
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
 });
 
 app.use((req, res, next) => {
@@ -38,11 +44,6 @@ app.use((req, res, next) => {
     } else {
         next();
     }
-});
-
-con.connect(function(err) {
-    if (err) throw err;
-    console.log("Connected!");
 });
 
 app.get('/credits/:movie', function(req, res) {
@@ -124,34 +125,49 @@ app.get('/credit/:role/:personName/:movieName', function(req, res) {
     req.params.role=con.escape(req.params.role);
     req.params.personName=con.escape(req.params.personName);
     req.params.movieName=con.escape(req.params.movieName);
-    var personId=getPersonId(req.params.personName, res);
-    console.log(personId);
-    var movieId=getMovieId(req.params.movieName, res);
-    var query=`INSERT INTO Credit (role, personid, movieid)
+    var personId=-1;
+    getPersonId(req.params.personName, res).then(function(done) {
+        personId=done;
+    });
+    var movieId=-1;
+    getMovieId(req.params.movieName, res).then(function(done) {
+        movieId=done;
+    });
+    setTimeout(function() {
+        console.log(personId);
+        var query=`INSERT INTO Credit (role, personid, movieid)
         VALUES (${req.params.role}, ${personId}, ${movieId})`;
-    con.query(query, function(err, results) {
-        if (err) {
-            console.log(err);
-            res.send("Error");
-        }
-        else res.send('Success');
-    })
+        console.log(query);
+        con.query(query, function(err, results) {
+            if (err) {
+                console.log(err);
+                res.send("Error");
+            }
+            else res.send('Success');
+        })
+    }, 300);
 });
 
 function getMovieId(name, res) {
     var query = `SELECT movieId from Movie WHERE name=${name}`;
-    con.query(query, function(err, results) {
-        if (err) {
-            console.log(err);
-            return("Error");
-        }
-        else if (results.length == 0) {
-            res.send("Movie name doesn't exist")
-        }
-        else return(results[0].movieId);
-    })
+    var prom = new Promise(function(resolve, reject) {
+        con.query(query, function(err, results) {
+            if (err) {
+                console.log(err);
+                resolve("Error");
+            }
+            else if (results.length == 0) {
+                res.send("Movie name doesn't exist");
+                resolve(null);
+            }
+            else {
+                console.log("here");
+                resolve(results[0].movieId);
+            }
+        });
+    });
+    return prom;
 }
-
 
 function getPersonId(name, res) {
     name = name.replace("'", "");
@@ -161,25 +177,23 @@ function getPersonId(name, res) {
     lastName=lastName.replace("'", "");
     var query = `SELECT personId from Professional ` +
         `WHERE firstName='${firstName}' AND lastName='${lastName}'`;
-    var personId = sleep(100);
-
-}
-
-function sleep(query) {
-    con.query(query, function(err, results) {
-        if (err) {
-            console.log(err);
-            return("Error");
-        }
-        else if (results.length == 0) {
-            res.send("Person name doesn't exist");
-            return(null);
-        }
-        else {
-            return personId=results[0].personId;
-            console.log("here");
-        }
+    var prom = new Promise(function(resolve, reject) {
+        con.query(query, function(err, results) {
+            if (err) {
+                console.log(err);
+                resolve("Error");
+            }
+            else if (results.length == 0) {
+                res.send("Person name doesn't exist");
+                resolve(null);
+            }
+            else {
+                console.log("here");
+                resolve(results[0].personId);
+            }
+        });
     });
+    return prom;
 }
 
 app.get('/revenue', function(req, res) {
@@ -248,24 +262,17 @@ app.get('/moviesLoved/:userid', function(req, res) {
     req.params.userid=con.escape(req.params.userid);
     var thisYear=new Date();
     thisYear=thisYear.getFullYear();
-    var query = `FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userID ` +
+    var query = `SELECT * FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId=lm.userId ` +
         `EXCEPT ` +
-        `SELECT m.name AS movieName ` +
-        `FROM SiteUser su INNER JOIN MovieOrder ON su.userId = mo.userId ` +
-        `INNER JOIN Movie m ON m.movieId = mo.movieId ` +
-        `WHERE YEAR(m.releaseDate)=${thisYear}`;
+        `(SELECT * ` + 
+        `FROM SiteUser s);`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
             res.send("Error");
         }
-        var movies = [];
-        for(var i = 0; i < results.length; i++) {
-            if (results[i].releaseDate<req.params.date && results[i].realeaseDate>req.params.date) {
-                movies.push(results[i]);
-            }
-        }
-        res.send(movies);
+        console.log(results);
+        res.send(results);
     })
 });
 
