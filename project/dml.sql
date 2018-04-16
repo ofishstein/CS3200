@@ -1,33 +1,33 @@
 /* Inserts for Professional */
 INSERT INTO Professional (firstName, lastName, picture, dob) 
-VALUES("Joseph", "Wood", "joseph.jpg", "1995-05-26");
+VALUES("Joseph", "Wood", "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260", "1995-05-26");
 
 INSERT INTO Professional (firstName, lastName, picture, dob) 
-VALUES("John", "Smith", "john.jpg", "1995-12-25");
+VALUES("John", "Smith", "https://images.pexels.com/photos/50855/pexels-photo-50855.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260", "1995-12-25");
 
 INSERT INTO Professional (firstName, lastName, picture, dob) 
-VALUES("Sara", "Jones", "sara.jpg", "1998-08-12");
+VALUES("Sara", "Jones", "https://images.pexels.com/photos/773370/pexels-photo-773370.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260", "1998-08-12");
 
 INSERT INTO Professional (firstName, lastName, picture, dob) 
-VALUES("Ann", "Williams", "ann.jpg", "2010-02-28");
+VALUES("Ann", "Williams", "https://images.pexels.com/photos/160933/girl-rabbit-friendship-love-160933.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260", "2010-02-28");
 
 INSERT INTO Professional (firstName, lastName, picture, dob) 
-VALUES("Kayla", "Davis", "kayla.jpg", "1952-04-01");
+VALUES("Kayla", "Davis", "https://images.pexels.com/photos/432722/pexels-photo-432722.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260", "1952-04-01");
 
 INSERT INTO Professional (firstName, lastName, picture, dob) 
-VALUES("James", "Mccord", "james.jpg", "1901-06-10");
+VALUES("James", "Mccord", "https://images.pexels.com/photos/415326/pexels-photo-415326.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260", "1901-06-10");
 
 INSERT INTO Professional (firstName, lastName, picture, dob) 
-VALUES("Cara", "Rosenblum", "cara.jpg", "2004-03-05");
+VALUES("Cara", "Rosenblum", "https://images.pexels.com/photos/41366/brunette-cute-fashion-female-41366.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260", "2004-03-05");
 
 INSERT INTO Professional (firstName, lastName, picture, dob) 
-VALUES("Maxwell", "Kuzma", "maxwell.jpg", "2003-09-22");
+VALUES("Maxwell", "Kuzma", "https://images.pexels.com/photos/769746/pexels-photo-769746.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260", "2003-09-22");
 
 INSERT INTO Professional (firstName, lastName, picture, dob) 
-VALUES("Brigid", "Greaney", "brigid.jpg", "2000-06-30");
+VALUES("Brigid", "Greaney", "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260", "2000-06-30");
 
 INSERT INTO Professional (firstName, lastName, picture, dob) 
-VALUES("Duane", "Swift", "duane.jpg", "1997-12-18");
+VALUES("Duane", "Swift", "https://images.pexels.com/photos/683381/pexels-photo-683381.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260", "1997-12-18");
 
 /* Inserts for Genre */
 INSERT INTO Genre (genreName)
