@@ -59,7 +59,7 @@ const MovieComponent = ({id, image, name, releasedate, credits, fromSearch, thea
         </CardText>
         <CardActions>
             {fromSearch? <FlatButton label="Love" onClick={() =>{love(id, userid)}} />: null}
-            {fromSearch? <FlatButton label="Order" onClick={()=> {order(10, id, userid, theaterid )}} /> : null}
+            {theaterid? <FlatButton label="Order" onClick={()=> {order(10, id, userid, theaterid )}} /> : null}
         </CardActions>
     </Card>
 
