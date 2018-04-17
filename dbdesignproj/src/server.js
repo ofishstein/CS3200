@@ -16,9 +16,11 @@ app.listen(3000, function() {
 
 // database information, will need to be updated with personal details
 var host="localhost";
-var user="root";
-var password="DLkmmAY!!!";
-var database="dbdesignproject";
+var user=/*TYPE USER STRING HERE*/;
+var password=/*TYPE PASSWORD STRING HERE*/;
+var database=/*TYPE DATABASE NAME STRING HERE;
+
+//THESE ARE STRINGS SO PUT THEM IN QUOTES^
 
 // connection structure for mysql database
 var con = sql.createConnection({
