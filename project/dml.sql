@@ -122,6 +122,18 @@ VALUES("Jaws", 6, "1975-06-20", 6, "https://vignette.wikia.nocookie.net/jaws/ima
 INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
 VALUES("Casablanca", 7, "1943-01-23", 4, "https://vignette.wikia.nocookie.net/moviedatabase/images/e/ed/Casablanca_%281942%29.jpg/revision/latest?cb=20140203153550");
 
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Jumanji", 2, "2017-12-20", 9, "https://www.movieinsider.com/images/p/600//485447_m1506152295.jpg");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Dealing With Idiots", 5, "2013-07-12", 7, "https://ia.media-imdb.com/images/M/MV5BNjE0MTIyMDY0Ml5BMl5BanBnXkFtZTcwMjA1Njk2OQ@@._V1_SY1000_CR0,0,674,1000_AL_.jpg");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Downsizing", 5, "2017-12-22", 8, "https://www.imdb.com/title/tt1389072/mediaviewer/rm2668189952");
+
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Peter Rabbit", 3, "2018-02-28", 10, "https://upload.wikimedia.org/wikipedia/en/3/3d/Peter-rabbit-teaser.jpg");
+
 /* Inserts for SiteUser */
 INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture)
 VALUES ("Jeff", "Johnson", "112 Huntington Ave", "Boston", "02120", "USA", "jeff@gmail.com", "p@$$w0rd", "http://anncurtis.ie/wp-content/uploads/2018/02/male-placeholder.jpg");
@@ -461,6 +473,18 @@ VALUES ("2015-11-21 03:05:07", 15.0, 19, 1, 10);
 INSERT INTO MovieOrder(orderTime, dollarAmount, vendorId, userId, movieId)
 VALUES ("2016-10-31 04:06:08", 40.0, 20, 8, 1);
 
+INSERT INTO MovieOrder(orderTime, dollarAmount, vendorId, userId, movieId)
+VALUES ("2016-10-31 04:06:08", 40.0, 20, 8, 11);
+
+INSERT INTO MovieOrder(orderTime, dollarAmount, vendorId, userId, movieId)
+VALUES ("2017-10-31 04:06:08", 40.0, 20, 8, 12);
+
+INSERT INTO MovieOrder(orderTime, dollarAmount, vendorId, userId, movieId)
+VALUES ("2015-11-21 03:05:07", 40.0, 20, 8, 13);
+
+INSERT INTO MovieOrder(orderTime, dollarAmount, vendorId, userId, movieId)
+VALUES ("2016-11-12 04:06:08", 40.0, 20, 8, 14);
+
 /* Inserts for Theater Order */
 INSERT INTO TheaterOrder(confirmationNumber, ticketCount)
 VALUES (11, 1);
@@ -491,6 +515,18 @@ VALUES (19, 1);
 
 INSERT INTO TheaterOrder(confirmationNumber, ticketCount)
 VALUES (20, 2);
+
+INSERT INTO TheaterOrder(confirmationNumber, ticketCount)
+VALUES (21, 2);
+
+INSERT INTO TheaterOrder(confirmationNumber, ticketCount)
+VALUES (22, 2);
+
+INSERT INTO TheaterOrder(confirmationNumber, ticketCount)
+VALUES (23, 2);
+
+INSERT INTO TheaterOrder(confirmationNumber, ticketCount)
+VALUES (24, 2);
 
 /* Inserts for Streaming Order */
 INSERT INTO StreamingOrder(confirmationNumber, expiration)
