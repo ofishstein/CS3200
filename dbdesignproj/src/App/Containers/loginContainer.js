@@ -184,12 +184,18 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         login: (user, pw) => {
+            if (user == "" || pw == "") {
+                return
+            }
             dispatch(tryLogin(user, pw))
         },
         registering: () => {
             dispatch({type: REGISTERING})
         },
         register: (first, last, addr, city, country, state, zip, email, pw, URLpic) => {
+            if (first == "" || last == "" || addr == "" || city == "" || country == "" || state == "" || zip == "" || email == "" || pw == "" || URLpic == "") {
+                return
+            }
             dispatch(tryRegister(first, last, addr, city, state, country, zip, email, pw, URLpic))
         }
 

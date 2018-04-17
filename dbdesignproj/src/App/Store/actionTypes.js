@@ -21,9 +21,9 @@ const localhost = "http://localhost:3000"
 export function creditActor(role, actor, movie) {
     let fetchString = localhost + "/credit/" + role + "/" + actor + "/" + movie;
     return (dispatch) => {
-        fetch(fetchString).then((res) => {
+        fetch(fetchString, {method: 'post'}).then((res) => {
             res.json().then((res) => {
-                if (res.stat !== "Error") {
+                if (res.Stat !== "Error") {
                     dispatch({type: CREDIT_SUCCESS})
                 }
                 else {
@@ -37,10 +37,11 @@ export function creditActor(role, actor, movie) {
 }
 
 export function tryLogin(user, pw) {
+    
     let fetchString = localhost + "/login/" + user + "/" + pw
     return (dispatch) =>  { fetch(fetchString).then((res) => {
         res.json().then((res) => {
-            if (res[0].userId) {
+            if (res[0]) {
                 dispatch({type: LOGIN_SUCCESS , user: res[0].userId})
             }
             else {
@@ -155,8 +156,9 @@ export function love(movieid, userid) {
     fetch(fetchString, {method: 'post'})
 }
 
-export function order(movieid, vendorid, userid) {
-
+export function order(number, movieid, userid, vendorid, ) {
+    let fetchString = localhost + "/theaterOrder/" + number + "/" + movieid + "/" + userid + "/" + vendorid
+    fetch(fetchString, {method: 'post'})
 }
 
 export function getReports(userid, directorFirst, directorLast, year) {

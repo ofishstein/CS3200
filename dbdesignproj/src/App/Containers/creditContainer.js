@@ -48,6 +48,7 @@ class Credit extends React.Component {
                         <br/>
                         <RaisedButton label="Credit" primary={true} style={style} onClick={(event) => this.props.credit(this.state.role, this.state.actor, this.state.movieTitle )}/>
                         {this.props.error? <span style={{color: 'red'}}>There was an error crediting</span> : null}
+                        {this.props.success? <span style={{color: 'green'}}>Successfully Credited</span> : null}
                     </div>
                 </MuiThemeProvider>
             </div>
@@ -58,6 +59,9 @@ class Credit extends React.Component {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         credit: (actor, movie, role) => {
+            if (role === "" || actor == "" || movie == "" ) {
+                return
+            }
             dispatch(creditActor(actor, movie, role))
         },
     }
@@ -65,7 +69,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        error: state.creditReducer.error
+        error: state.creditReducer.error,
+        success: state.creditReducer.success
     }
 }
 

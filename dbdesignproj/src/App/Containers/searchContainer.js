@@ -58,9 +58,9 @@ class SearchContainer extends React.Component {
                         </div>
                         <div>
                             {theaters? _.map(theaters, (theater) => {
-                                let theaterMovies = _.map(this.props.allMovies, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={movie.credits} fromSearch={true} theaterid={theater.vendorid} love={this.props.love} order={this.props.order} userid={this.props.userId} key={movie.id}/>})
+                                let theaterMovies = _.map(this.props.allMovies, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={movie.credits} fromSearch={true} theaterid={theater.vendorId} love={this.props.love} order={this.props.order} userid={this.props.userId} key={movie.id}/>})
                                 return <div>
-                                    <span>{theater.name + " " + theater.location}</span>
+                                    <div style={{marginBottom: "1rem"}}>{theater.name + " " + theater.location}</div>
                                     {theaterMovies}
                                 </div>
                             }) : null}
@@ -90,6 +90,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch({type: DROPDOWNCHANGE , value: value})
         },
         trySearch: (searchValue, searchType) => {
+            if (searchValue == "") {
+                return
+            }
             switch(searchType) {
                 case 1: {
                     dispatch(searchMovies(searchValue))
@@ -110,8 +113,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         love: (movieid, userid) => {
             love(movieid, userid)
         },
-        order: (movieid, theaterid, userid) => {
-            order(movieid, theaterid, userid)
+        order: (number, movieid, theaterid, userid) => {
+            order(number, movieid, theaterid, userid)
         }
     }
 }

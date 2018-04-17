@@ -10,7 +10,7 @@ const searchReducer = (state = {user: '', searchType: 1, movies: null, theaters:
         }
 
         case 'theaterSearchComplete': {
-            return Object.assign({}, state, {theaters: action.theaters, movies: null}) //TODO: or whatever this is in databse
+            return Object.assign({}, state, {theaters: action.theaters, movies: null, allMovies: action.allMovies}) //TODO: or whatever this is in databse
         }
 
         case 'dropDownChange': {
