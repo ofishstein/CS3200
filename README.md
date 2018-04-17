@@ -9,6 +9,7 @@ Team members:
  * Joey Wood
  
  [System Demo Video](https://youtu.be/Ed8Bpv_DaJY)
+ [System Setup Video](https://youtu.be/0gtpxAt542g)
  
  
  Steps to Run:
