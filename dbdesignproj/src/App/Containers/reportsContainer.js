@@ -70,18 +70,18 @@ class Reports extends React.Component {
                         <RaisedButton label="Generate Reports" primary={true} style={style} onClick={(event) => this.props.getReports(this.props.user, this.state.directorFirst,this.state.directorLast, this.state.year)}/>
                         {this.props.reports?
                             <div>
-                                <span style = {{marginBottom: '.5rem'}}>{studioString} </span>
+                                <div style = {{marginBottom: '.5rem'}}>{studioString} </div>
                                 <br/>
-                                <span style = {{marginBottom: '.5rem'}}>{genreString} </span>
+                                <div style = {{marginBottom: '.5rem'}}>{genreString} </div>
                                 <br/>
-                                <span style = {{marginBottom: '.5rem'}}>{"Director " + this.state.directorFirst + " " + this.state.directorLast + "'s top films" }</span>
+                                <div style = {{marginBottom: '.5rem'}}>{"Director " + this.state.directorFirst + " " + this.state.directorLast + "'s top films" }</div>
                                 <br/>
-                                {_.map(this.props.reports.bestSelling, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={null} fromSearch={false} theaterid={null} love={null} order={null} userid={null} key={movie.id} />})}
+                                {this.props.reports.bestSelling.length > 0? _.map(this.props.reports.bestSelling, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={null} fromSearch={false} theaterid={null} love={null} order={null} userid={null} key={movie.id} />}): <div style={{color: 'red', marginBottom: '.3rem'}}> SORRY WE FOUND NONE </div>}
                                 <span>{"Box Office Hits From " + this.state.year }</span>
                                 <br/>
-                                {_.map(this.props.reports.boxOfficeHits, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={null} fromSearch={false} theaterid={null} love={null} order={null} userid={null} key={movie.id} />})}
+                                {this.props.reports.boxOfficeHits.length > 0? _.map(this.props.reports.boxOfficeHits, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={null} fromSearch={false} theaterid={null} love={null} order={null} userid={null} key={movie.id} />}) : <div style={{color: 'red', marginBottom: '.3rem'}}> SORRY WE FOUND NONE </div>}
                                 <span>{"Most Popular Streaming Movies"}</span>
-                                {_.map(this.props.reports.mostLoved, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={null} fromSearch={false} theaterid={null} love={null} order={null} userid={null} key={movie.id} />})}
+                                {this.props.reports.mostLoved.length > 0? _.map(this.props.reports.mostLoved, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={null} fromSearch={false} theaterid={null} love={null} order={null} userid={null} key={movie.id} />}): <div style={{color: 'red', marginBottom: '.3rem'}}> SORRY WE FOUND NONE </div> }
 
                             </div> : null
 

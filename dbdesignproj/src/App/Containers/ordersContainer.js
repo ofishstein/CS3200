@@ -40,18 +40,18 @@ class Orders extends React.Component {
                         <AppBar
                             title="Orders"
                         />
-                        <span>Ordered Movies</span>
+                        <div style={{marginBottom: ".5rem"}}>Ordered Movies</div>
                         <br/>
                         <div>
-                            {movies? _.map(movies, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={null} fromSearch={false} theaterid={null} love={null} order={null} userid={null} key={movie.id} />}) : null}
+                            {movies? _.map(movies, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={null} fromSearch={false} theaterid={null} love={null} order={null} userid={null} key={movie.id} />}) : <div style={{color: 'red', marginBottom: '.3rem'}}> SORRY WE FOUND NONE </div>}
 
                         </div>
-                        <span>Loved Movies You Havent Ordered This Year</span>
+                        <div style={{marginBottom: ".5rem"}}>Loved Movies You Havent Ordered This Year</div>
                         <br/>
                         <div>
-                            {loy? _.map(loy, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={null} fromSearch={false} theaterid={null} userid={null} love={null} order={null} key={movie.id}/>}) : null}
+                            {loy? _.map(loy, (movie) => {return <MovieComponent id={movie.id} image={movie.moviePicture} name={movie.movieName} releasedate={movie.releaseDate.slice(0,4)} credits={null} fromSearch={false} theaterid={null} userid={null} love={null} order={null} key={movie.id}/>}) : <div style={{color: 'red', marginBottom: '.3rem'}}> SORRY WE FOUND NONE </div>}
                         </div>
-                        <span>Top 3 Genres (Revenue)</span>
+                        <div style={{marginBottom: ".5rem"}}>Top 3 Genres (Revenue)</div>
                         <br/>
                         {genres?
                             <Table selectable={false}>
@@ -72,7 +72,7 @@ class Orders extends React.Component {
                                 </TableBody>
                             </Table> : null
                         }
-                        <span>Top Studios (Revenue)</span>
+                        <div style={{marginBottom: ".5rem"}}>Top Studios (Revenue)</div>
                         <br/>
                         {studios?
                             <Table selectable={false}>
