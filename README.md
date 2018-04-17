@@ -15,7 +15,9 @@ Team members:
  
  2) Run MySQL (through XAMPP or command line tool) and Create a database using our ddl file as SOURCE for schema and our dml file as SOURCE for inserts
  
- e.g. CREATE DATABASE dbdesignproject;
+ e.g. 
+ 
+      CREATE DATABASE dbdesignproject;
  
       USE dbdesignproject;
       
