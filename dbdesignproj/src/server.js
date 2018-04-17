@@ -258,7 +258,7 @@ app.get('/moviesLoved/:userid', function(req, res) {
     thisYear=thisYear.getFullYear();
     var query = `SELECT m.name AS movieName, m.releaseDate AS releaseDate, m.coverPicture AS moviePicture, m.movieId AS id FROM ` +
         `SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userId INNER JOIN Movie m ON lm.movieId = m.movieId ` + 
-        `WHERE su.userId=${req.params.userid} AND lm.movieId NOT IN ` + 
+        `WHERE su.userId=${req.params.userid} AND YEAR(m.releaseDate)=${thisYear} AND lm.movieId NOT IN ` + 
         `(SELECT m.movieId AS movieName ` + 
         `FROM SiteUser su INNER JOIN MovieOrder mo ON su.userId = mo.userId ` + 
         `INNER JOIN Movie m ON m.movieId = mo.movieId ` + 
