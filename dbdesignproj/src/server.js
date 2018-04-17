@@ -18,7 +18,7 @@ app.listen(3000, function() {
 var host="localhost";
 var user=/*TYPE USER STRING HERE*/;
 var password=/*TYPE PASSWORD STRING HERE*/;
-var database=/*TYPE DATABASE NAME STRING HERE;
+var database=/*TYPE DATABASE NAME STRING HERE*/;
 
 //THESE ARE STRINGS SO PUT THEM IN QUOTES^
 
