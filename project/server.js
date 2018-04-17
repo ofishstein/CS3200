@@ -13,7 +13,7 @@ app.listen(3000, function() {
 
 var host="localhost";
 var user="root";
-var password="spot108";
+var password="FILL IN";
 var database="Project";
 
 var con = sql.createConnection({
@@ -67,7 +67,7 @@ app.get('/credits/:movie', function(req, res) {
                 }
                 else {
                     var credits=[{"firstName": results[i].firstName, "lastName": results[i].lastName,
-                        "picture":results[i].picture, "dob": results[i].dob}];
+                        "picture":results[i].picture, "dob": results[i].dob, "role": results[i].role}];
                     var movie={"role":results[i].role, "name": results[i].name,
                         "releaseDate": results[i].releaseDate, "coverPicture": results[i].coverPicture,
                         "credits": credits};
@@ -76,10 +76,9 @@ app.get('/credits/:movie', function(req, res) {
                 }
             }
             res.send(nestedResults);
-    });
+        });
 });
-
-app.post('/new_user/:first/:last/:addr/:city/:state/:country/:zip/:email/:password/:pic/',
+app.post('/new_user/:first/:last/:addr/:city/:country/:zip/:email/:password/:pic/',
     function(req, res) {
         req.params.first=con.escape(req.params.first);
         req.params.last=con.escape(req.params.last);
@@ -93,17 +92,16 @@ app.post('/new_user/:first/:last/:addr/:city/:state/:country/:zip/:email/:passwo
         req.params.pic=con.escape(req.params.pic);
         var query=`INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, ` +
             `country, email, password, profilePicture) VALUES (${req.params.first}, ${req.params.last}, ` +
-            `${req.params.addr}, ${req.params.city}, ${req.params.state}, ${req.params.country},` +
+            `${req.params.addr}, ${req.params.city}, ${req.params.country},` +
             `${req.params.zip}, ${req.params.email}, ${req.params.password}, ${req.params.pic})`;
-    con.query(query, function(err, result) {
-        if (err) {
-            console.log(err);
-            res.send("Error")
-        }
-        else res.send('Success');
-    })
-});
-
+        con.query(query, function(err, result) {
+            if (err) {
+                console.log(err);
+                res.send({stat:"Error"})
+            }
+            else res.send({stat:"Success"});
+        })
+    });
 
 
 app.post('/loved/:movieid/:userid', function(req, res) {
@@ -121,80 +119,43 @@ app.post('/loved/:movieid/:userid', function(req, res) {
 });
 
 
-app.get('/credit/:role/:personName/:movieName', function(req, res) {
+app.post('/credit/:role/:personName/:movieName', function(req, res) {
     req.params.role=con.escape(req.params.role);
     req.params.personName=con.escape(req.params.personName);
     req.params.movieName=con.escape(req.params.movieName);
-    var personId=-1;
-    getPersonId(req.params.personName, res).then(function(done) {
-        personId=done;
-    });
-    var movieId=-1;
-    getMovieId(req.params.movieName, res).then(function(done) {
-        movieId=done;
-    });
-    setTimeout(function() {
-        console.log(personId);
-        var query=`INSERT INTO Credit (role, personid, movieid)
-        VALUES (${req.params.role}, ${personId}, ${movieId})`;
-        console.log(query);
-        con.query(query, function(err, results) {
+    var name = req.params.personName.replace("'", "");
+    var name = req.params.personName.split(" ");
+    var firstName=name[0];
+    firstName=firstName.slice(1, firstName.length);
+    var lastName=name[1].slice(0, -1);
+    var movieQuery=`SELECT movieId from Movie WHERE name=${req.params.movieName}; `;
+    var personQuery=`SELECT personId from Professional ` +
+        `WHERE firstName='${firstName}' AND lastName='${lastName}'; `;
+    con.query(movieQuery, function(err, results) {
+        if (err) {
+            console.log(err);
+            res.send("Error");
+        }
+        var movieId=results[0].movieId;
+        con.query(personQuery, function(err, results) {
             if (err) {
                 console.log(err);
                 res.send("Error");
             }
-            else res.send('Success');
+            var personId=results[0].personId;
+            var creditQuery=`INSERT INTO Credit (role, personid, movieid) ` +
+                `VALUES (${req.params.role}, ${personId}, ${movieId})`;
+            con.query(creditQuery, function(err, results) {
+                if (err) {
+                    console.log(err);
+                    res.send("Error");
+                }
+                res.send(results.insertId);
+            });
         })
-    }, 300);
+    })
 });
 
-function getMovieId(name, res) {
-    var query = `SELECT movieId from Movie WHERE name=${name}`;
-    var prom = new Promise(function(resolve, reject) {
-        con.query(query, function(err, results) {
-            if (err) {
-                console.log(err);
-                resolve("Error");
-            }
-            else if (results.length == 0) {
-                res.send("Movie name doesn't exist");
-                resolve(null);
-            }
-            else {
-                console.log("here");
-                resolve(results[0].movieId);
-            }
-        });
-    });
-    return prom;
-}
-
-function getPersonId(name, res) {
-    name = name.replace("'", "");
-    name = name.split(" ");
-    var firstName=name[0];
-    var lastName=name[1];
-    lastName=lastName.replace("'", "");
-    var query = `SELECT personId from Professional ` +
-        `WHERE firstName='${firstName}' AND lastName='${lastName}'`;
-    var prom = new Promise(function(resolve, reject) {
-        con.query(query, function(err, results) {
-            if (err) {
-                console.log(err);
-                resolve("Error");
-            }
-            else if (results.length == 0) {
-                res.send("Person name doesn't exist");
-                resolve(null);
-            }
-            else {
-                console.log("here");
-                resolve(results[0].personId);
-            }
-        });
-    });
-    return prom;
-}
 
 app.get('/revenue', function(req, res) {
     var query='SELECT * FROM' +
@@ -204,7 +165,12 @@ app.get('/revenue', function(req, res) {
         'GROUP BY s.studioName ' +
         'ORDER BY revenue DESC ' +
         'LIMIT 10) res;';
-
+    con.query(query, function(err, results) {
+        if (err) {
+            console.log(err);
+            res.send("Error");
+        }
+        else res.send(results);  })
 });
 
 
@@ -215,7 +181,7 @@ app.get('/movies/:lastName', function(req, res) {
         `FROM Movie m INNER JOIN Credit c ON m.movieId = c.movieId ` +
         `INNER JOIN Professional p ON c.personId = p.personId ` +
         `WHERE c.role = "Director" AND ` +
-        `p.lastName='${req.params.lastName}'`;
+        `p.lastName=${req.params.lastName}`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
@@ -230,7 +196,7 @@ app.get('/movie/:movieName', function(req, res) {
     var query = `SELECT m.name AS movieName, m.coverPicture AS moviePicture, m.releaseDate AS releaseDate, m.movieId AS id ` +
         `FROM Movie m INNER JOIN Credit c ON m.movieId = c.movieId ` +
         `INNER JOIN Professional p ON c.personId = p.personId ` +
-        `WHERE m.name='${req.params.movieName}'`;
+        `WHERE m.name=${req.params.movieName}`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
@@ -262,10 +228,13 @@ app.get('/moviesLoved/:userid', function(req, res) {
     req.params.userid=con.escape(req.params.userid);
     var thisYear=new Date();
     thisYear=thisYear.getFullYear();
-    var query = `SELECT * FROM SiteUser su INNER JOIN LovedMovies lm ON su.userId=lm.userId ` +
-        `EXCEPT ` +
-        `(SELECT * ` + 
-        `FROM SiteUser s);`;
+    var query = `SELECT * FROM ` +
+        `SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userId ` + 
+        `WHERE su.userId=${req.params.userid} AND lm.movieId NOT IN ` + 
+        `(SELECT m.movieId AS movieName ` + 
+        `FROM SiteUser su INNER JOIN MovieOrder mo ON su.userId = mo.userId ` + 
+        `INNER JOIN Movie m ON m.movieId = mo.movieId ` + 
+        `WHERE YEAR(m.releaseDate)=${thisYear});`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
@@ -292,9 +261,17 @@ app.get('/credited/:name', function(req, res) {
         res.send(results);
     })
 });
-
-
-
+app.get('/allmovies/', function(req,res) {
+    var query = `SELECT m.name AS movieName, m.releaseDate AS releaseDate, m.coverPicture, AS moviePicture, m.movieId AS id `
+        `FROM Movie m`;
+    con.query(query, function(err, results) {
+        if (err) {
+            console.log(err);
+            res.send("Error")
+        }
+        res.send(results);
+    })
+});
 app.get('/revenue', function(req, res) {
     var query='SELECT res.genre, revenue FROM ' +
         '(SELECT g.genreName AS genre, SUM(mo.dollarAmount) AS revenue ' +
@@ -316,8 +293,8 @@ app.get('/login/:email/:password', function(req, res) {
     req.params.email=con.escape(req.params.email);
     req.params.password=con.escape(req.params.password);
     var query=`SELECT * FROM SiteUser su ` +
-        `WHERE email='${req.params.email}' AND ` +
-        `password='${req.params.password}'`;
+        `WHERE email=${req.params.email} AND ` +
+        `password=${req.params.password}`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
@@ -330,7 +307,7 @@ app.get('/login/:email/:password', function(req, res) {
 app.get('/theater/:city', function(req, res) {
     req.params.city=con.escape(req.params.city);
     var query=`SELECT * FROM TheaterVendor ` +
-        `WHERE location='${req.params.city}'`;
+        `WHERE location=${req.params.city}`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
@@ -387,12 +364,12 @@ app.get('/favoriteGenre/:userid', function(req, res) {
 
 // Find the most loved movies by all users that are available for streaming
 app.get('/mostLoved', function(req, res) {
-    var query= 'SELECT movieName FROM ' +
-        '(SELECT m.Name AS movieName, COUNT(*) AS movieCount ' +
+    var query= 'SELECT movieName, moviePicture, releaseDate, id FROM ' +
+        '(SELECT m.name AS movieName, COUNT(*) AS movieCount, m.coverPicture AS moviePicture, m.releaseDate AS releaseDate, m.movieId AS id ' +
         'FROM LovedMovies lm INNER JOIN Movie m ON lm.movieId = m.movieId ' +
         'INNER JOIN MovieOrder mo ON mo.movieId = m.movieId ' +
         'INNER JOIN StreamingOrder so ON so.confirmationNumber = mo.confirmationNumber ' +
-        'GROUP BY m.Name ' +
+        'GROUP BY m.name, m.coverPicture, m.releaseDate, m.movieId ' +
         'ORDER BY movieCount DESC) res;';
     con.query(query, function(err, results) {
         if (err) {
@@ -408,15 +385,15 @@ app.get('/mostLoved', function(req, res) {
 app.get('/directorsBestSelling/:first/:last', function(req, res) {
     req.params.first=con.escape(req.params.first);
     req.params.last=con.escape(req.params.last);
-    var query = `SELECT movieName FROM ` +
-        `(SELECT m.name AS movieName, SUM(mo.dollarAmount) AS revenue ` +
+    var query = `SELECT movieName, moviePicture, releaseDate, id FROM ` +
+        `(SELECT m.Name AS movieName, SUM(mo.dollarAmount) AS revenue, m.coverPicture AS moviePicture, m.releaseDate AS releaseDate, m.movieId AS id ` +
         `FROM Movie m INNER JOIN Credit c ON m.movieId = c.creditId ` +
         `INNER JOIN MovieOrder mo ON mo.movieId = m.movieId ` +
         `INNER JOIN Professional p ON p.personId = c.personId ` +
         `WHERE c.role = "Director" AND ` +
         `p.firstname = ${req.params.first} ` +
-        `AND p.lastname = ${req.params.first} ` +
-        `GROUP BY m.name ` +
+        `AND p.lastname = ${req.params.last} ` +
+        `GROUP BY m.name, m.coverPicture, m.releaseDate, m.movieId ` +
         `ORDER BY revenue DESC) res;`;
     con.query(query, function(err, results) {
         if (err) {
@@ -430,13 +407,13 @@ app.get('/directorsBestSelling/:first/:last', function(req, res) {
 // Find a year's box office hits
 app.get('/yearBoxOfficeHit/:year', function(req, res) {
     req.params.year=con.escape(req.params.year);
-    var query = `SELECT movieName FROM ` +
-        `(SELECT m.Name AS movieName, SUM(mo.dollarAmount) AS revenue ` +
+    var query = `SELECT movieName, moviePicture, releaseDate, id  FROM ` +
+        `(SELECT m.Name AS movieName, SUM(mo.dollarAmount) AS revenue, m.coverPicture AS moviePicture, m.releaseDate AS releaseDate, m.movieId AS id ` +
         `FROM Movie m INNER JOIN MovieOrder mo ON m.movieId = mo.movieId ` +
         `INNER JOIN TheaterOrder tho ON mo.confirmationNumber = tho.confirmationNumber ` +
-	        `WHERE YEAR(m.releaseDate) < ${req.params.year} AND m.releaseDate > ${req.params.year} ` +
-	        `GROUP BY m.Name ` +
-	        `ORDER BY revenue DESC) res;`;
+        `WHERE YEAR(m.releaseDate) = ${req.params.year} ` +
+        `GROUP BY m.name, m.coverPicture, m.releaseDate, m.movieId ` +
+        `ORDER BY revenue DESC) res;`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
@@ -444,4 +421,49 @@ app.get('/yearBoxOfficeHit/:year', function(req, res) {
         }
         res.send(results);
     })
+});
+
+app.get('/order/:movieId/:userId/:vendorId', function(req, res) {
+    req.params.movieId=con.escape(req.params.movieId);
+    req.params.userId=con.escape(req.params.userId);
+    req.params.vendorId=con.escape(req.params.vendorId);
+    var query = `SELECT * FROM ` +
+        `MovieOrder ` +
+        `WHERE movieId=${req.params.movieId} AND ` +
+        `userId=${req.params.userId} AND ` +
+        `vendorId=${req.params.vendorId};`;
+    con.query(query, function(err, results) {
+        if (err) {
+            console.log(err);
+            res.send("Error")
+        }
+        res.send(results);
+    })
+});
+
+app.post('/theaterOrder/:dollarAmount/:vendorId/:userId/:movieId', function(req, res) {
+    req.params.dollarAmount=con.escape(req.params.dollarAmount);
+    req.params.movieId=con.escape(req.params.movieId);
+    req.params.userId=con.escape(req.params.userId);
+    req.params.vendorId=con.escape(req.params.vendorId);
+    var orderTime=new Date().toISOString().slice(0, 19).replace('T', ' ');
+    var query = `INSERT INTO MovieOrder(orderTime, dollarAmount, vendorId, userId, movieId) ` +
+        `VALUES ('${orderTime}', ${req.params.dollarAmount}, ${req.params.vendorId}, ` +
+        `${req.params.userId}, ${req.params.movieId}); `;
+    con.query(query, function(err, results) {
+        if (err) {
+            console.log(err);
+            res.send("Error")
+        }
+        var confirmationNumber=results.insertId;
+        var query = `INSERT INTO TheaterOrder(confirmationNumber, ticketCount) ` +
+            `VALUES (${confirmationNumber}, 1);`;
+        con.query(query, function(err, results) {
+            if (err) {
+                console.log(err);
+                res.send("Error")
+            }
+            res.send(results);
+        })
+    });
 });
