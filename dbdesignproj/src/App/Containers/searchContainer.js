@@ -90,6 +90,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch({type: DROPDOWNCHANGE , value: value})
         },
         trySearch: (searchValue, searchType) => {
+            if (searchValue == "") {
+                return
+            }
             switch(searchType) {
                 case 1: {
                     dispatch(searchMovies(searchValue))

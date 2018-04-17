@@ -98,6 +98,9 @@ class Reports extends React.Component {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         getReports: (userid, directorFirst, directorLast, year) => {
+            if (directorFirst == "" || directorLast == "" || year == "") {
+                return
+            }
             dispatch(getReports(userid, directorFirst, directorLast, year))
         },
     }

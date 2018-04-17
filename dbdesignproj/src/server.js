@@ -134,23 +134,30 @@ app.post('/credit/:role/:personName/:movieName', function(req, res) {
     con.query(movieQuery, function(err, results) {
         if (err) {
             console.log(err);
-            res.send("Error");
+            res.send({Stat:"Error"});
+        }
+        if (!results[0]) {
+            res.send({Stat:"Error"});
         }
         var movieId=results[0].movieId;
         con.query(personQuery, function(err, results) {
             if (err) {
                 console.log(err);
-                res.send("Error");
+                res.send({Stat:"Error"});
             }
-            var personId=results[0].personId;
+            if (!results[0])
+            {
+                res.send({Stat:"Error"});
+            }
+             var personId=results[0].personId;
             var creditQuery=`INSERT INTO Credit (role, personid, movieid) ` +
                 `VALUES (${req.params.role}, ${personId}, ${movieId})`;
             con.query(creditQuery, function(err, results) {
                 if (err) {
                     console.log(err);
-                    res.send("Error");
+                    res.send({Stat:"Error"});
                 }
-                res.send("Success");
+                res.send({Stat:"Success"});
             });
         })
     })
@@ -197,8 +204,7 @@ app.get('/movies/:lastName', function(req, res) {
 app.get('/movie/:movieName', function(req, res) {
     req.params.movieName=con.escape(req.params.movieName);
     var query = `SELECT m.name AS movieName, m.coverPicture AS moviePicture, m.releaseDate AS releaseDate, m.movieId AS id ` +
-        `FROM Movie m INNER JOIN Credit c ON m.movieId = c.movieId ` +
-        `INNER JOIN Professional p ON c.personId = p.personId ` +
+        `FROM Movie m ` +
         `WHERE m.name=${req.params.movieName}`;
     con.query(query, function(err, results) {
         if (err) {
