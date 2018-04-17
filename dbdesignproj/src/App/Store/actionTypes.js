@@ -37,7 +37,7 @@ export function creditActor(role, actor, movie) {
 }
 
 export function tryLogin(user, pw) {
-    
+
     let fetchString = localhost + "/login/" + user + "/" + pw
     return (dispatch) =>  { fetch(fetchString).then((res) => {
         res.json().then((res) => {
@@ -89,13 +89,14 @@ export function fetchMoviesAndAll(user) {
                         fetch(fetchString3).then((res) => {
                             res.json().then((res) => {
                                 ordersPageData.genres = res;
-                                dispatch({type: FETCHED_ORDERS, movies: ordersPageData.movies, studios: ordersPageData.studios, genres: ordersPageData.genres, loy: ordersPageData.loy })
+                                fetch(fetchString4).then((res) => {
+                                    res.json().then((res) => {
+                                        ordersPageData.loy = res;
+                                        dispatch({type: FETCHED_ORDERS, movies: ordersPageData.movies, studios: ordersPageData.movies, genres: ordersPageData.movies, loy: ordersPageData.loy })
+                                    })
 
-                                // fetch(fetchString4).then((res) => {
-                                //     res.json().then((res) => {
-                                //         ordersPageData.loy = res;
-                                //         dispatch({type: FETCHED_ORDERS, movies: ordersPageData.movies, studios: ordersPageData.movies, genres: ordersPageData.movies, loy: ordersPageData.loy })
-                                //     })
+
+                                })
                             })
                         })
                     })

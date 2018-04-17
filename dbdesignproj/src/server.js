@@ -254,8 +254,8 @@ app.get('/moviesLoved/:userid', function(req, res) {
     req.params.userid=con.escape(req.params.userid);
     var thisYear=new Date();
     thisYear=thisYear.getFullYear();
-    var query = `SELECT * FROM ` +
-        `SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userId ` + 
+    var query = `SELECT m.name AS movieName, m.releaseDate AS releaseDate, m.coverPicture AS moviePicture, m.movieId AS id FROM ` +
+        `SiteUser su INNER JOIN LovedMovies lm ON su.userId = lm.userId INNER JOIN Movie m ON lm.movieId = m.movieId ` + 
         `WHERE su.userId=${req.params.userid} AND lm.movieId NOT IN ` + 
         `(SELECT m.movieId AS movieName ` + 
         `FROM SiteUser su INNER JOIN MovieOrder mo ON su.userId = mo.userId ` + 
@@ -495,4 +495,3 @@ app.post('/theaterOrder/:dollarAmount/:vendorId/:userId/:movieId', function(req,
         })
     });
 });
-
