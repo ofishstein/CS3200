@@ -134,6 +134,9 @@ VALUES("Downsizing", 5, "2017-12-22", 8, "https://www.imdb.com/title/tt1389072/m
 INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
 VALUES("Peter Rabbit", 3, "2018-02-28", 10, "https://upload.wikimedia.org/wikipedia/en/3/3d/Peter-rabbit-teaser.jpg");
 
+INSERT INTO Movie (name, genreId, releaseDate, studioId, coverPicture)
+VALUES("Black Panther", 1, "2018-02-16", 2, "https://ia.media-imdb.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_SY1000_CR0,0,674,1000_AL_.jpg");
+
 /* Inserts for SiteUser */
 INSERT INTO SiteUser (firstName, lastName, streetAddr, city, postalCode, country, email, password, profilePicture)
 VALUES ("Jeff", "Johnson", "112 Huntington Ave", "Boston", "02120", "USA", "jeff@gmail.com", "p@$$w0rd", "http://anncurtis.ie/wp-content/uploads/2018/02/male-placeholder.jpg");
@@ -352,6 +355,9 @@ VALUES (10, 7);
 
 INSERT INTO LovedMovies (movieId, userId)
 VALUES (14, 2);
+
+INSERT INTO LovedMovies (movieId, userId)
+VALUES (15, 2);
 
 /* Inserts for StreamingVendor */
 INSERT INTO StreamingVendor(vendorId, url)
