@@ -350,6 +350,9 @@ VALUES (9, 10);
 INSERT INTO LovedMovies (movieId, userId)
 VALUES (10, 7);
 
+INSERT INTO LovedMovies (movieId, userId)
+VALUES (14, 2);
+
 /* Inserts for StreamingVendor */
 INSERT INTO StreamingVendor(vendorId, url)
 VALUES (1, "www.netflix.com");
