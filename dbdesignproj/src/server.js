@@ -1,27 +1,33 @@
 var express = require('express'),
     sql = require('mysql');
 
+// run express app
 var app = express();
 
+// base route
 app.get('/', function(req, res) {
     res.send('Hello World!');
 });
 
+// what port requests wil be passed through
 app.listen(3000, function() {
     console.log('Example app listening on port 3000!');
 });
 
+// database information, will need to be updated with personal details
 var host="localhost";
 var user="root";
 var password="DLkmmAY!!!";
 var database="dbdesignproject";
 
+// connection structure for mysql database
 var con = sql.createConnection({
     host: host,
     user: user,
     password: password,
     database: database
 });
+
 
 app.use((req, res, next) => {
     const origin = req.get('origin');
@@ -40,11 +46,13 @@ app.use((req, res, next) => {
     }
 });
 
+// connect to the database
 con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
 });
 
+// get all credits for a given movie
 app.get('/credits/:movie', function(req, res) {
     //console.log(req.params.movie);
     req.params.movie=con.escape(req.params.movie);
@@ -60,6 +68,7 @@ app.get('/credits/:movie', function(req, res) {
             }
             var movieid = -1;
             var nestedResults = [];
+            // this nests credits under each movie, rather than every credit given their own results
             for(var i = 0; i < results.length; i++) {
                 if(results[i].movieId==movieid) {
                     nestedResults[nestedResults.length-1].credits.push(results[i]);
@@ -78,6 +87,8 @@ app.get('/credits/:movie', function(req, res) {
     });
 });
 
+// add a new user given various information about the user but most importantly the email and password
+// for login purposes
 app.post('/new_user/:first/:last/:addr/:city/:country/:zip/:email/:password/:pic/',
     function(req, res) {
         req.params.first=con.escape(req.params.first);
@@ -103,8 +114,7 @@ app.post('/new_user/:first/:last/:addr/:city/:country/:zip/:email/:password/:pic
     })
 });
 
-
-
+// love a movie given a movie and a user
 app.post('/loved/:movieid/:userid', function(req, res) {
     req.params.movieid=con.escape(req.params.movieid);
     req.params.userid=con.escape(req.params.userid);
@@ -119,7 +129,7 @@ app.post('/loved/:movieid/:userid', function(req, res) {
     })
 });
 
-
+// credit a professional for a movie with their role
 app.post('/credit/:role/:personName/:movieName', function(req, res) {
     req.params.role=con.escape(req.params.role);
     req.params.personName=con.escape(req.params.personName);
@@ -131,6 +141,10 @@ app.post('/credit/:role/:personName/:movieName', function(req, res) {
     var movieQuery=`SELECT movieId from Movie WHERE name=${req.params.movieName}; `;
     var personQuery=`SELECT personId from Professional ` +
         `WHERE firstName='${firstName}' AND lastName='${lastName}'; `;
+    // needed to nest the queries
+    // when queries were running one after another, rather than nesting
+    // javascript wasn't waiting for execution to finish and thus variables
+    // were undefined
     con.query(movieQuery, function(err, results) {
         if (err) {
             console.log(err);
@@ -139,6 +153,7 @@ app.post('/credit/:role/:personName/:movieName', function(req, res) {
         if (!results[0]) {
             res.send({Stat:"Error"});
         }
+        // get movieId from result
         var movieId=results[0].movieId;
         con.query(personQuery, function(err, results) {
             if (err) {
@@ -149,7 +164,8 @@ app.post('/credit/:role/:personName/:movieName', function(req, res) {
             {
                 res.send({Stat:"Error"});
             }
-             var personId=results[0].personId;
+            // get personId from result
+            var personId=results[0].personId;
             var creditQuery=`INSERT INTO Credit (role, personid, movieid) ` +
                 `VALUES (${req.params.role}, ${personId}, ${movieId})`;
             con.query(creditQuery, function(err, results) {
@@ -164,7 +180,7 @@ app.post('/credit/:role/:personName/:movieName', function(req, res) {
 });
 
 
-
+// get all revenue from all movies
 app.get('/revenue', function(req, res) {
     var query='SELECT * FROM' +
         '(SELECT s.studioName AS studio, SUM(mo.dollarAmount) AS revenue ' +
@@ -184,7 +200,7 @@ if (err) {
 });
 
 
-
+// get all movies directed by a Director with a given last name
 app.get('/movies/:lastName', function(req, res) {
     req.params.lastName=con.escape(req.params.lastName);
     var query = `SELECT m.name AS movieName, m.coverPicture AS moviePicture, m.releaseDate AS releaseDate, m.movieId AS id ` +
@@ -201,6 +217,7 @@ app.get('/movies/:lastName', function(req, res) {
     })
 });
 
+// get all movies given a movieName
 app.get('/movie/:movieName', function(req, res) {
     req.params.movieName=con.escape(req.params.movieName);
     var query = `SELECT m.name AS movieName, m.coverPicture AS moviePicture, m.releaseDate AS releaseDate, m.movieId AS id ` +
@@ -215,7 +232,7 @@ app.get('/movie/:movieName', function(req, res) {
     })
 });
 
-
+// get all movie pictures from a given user's movie orders
 app.get('/moviesPics/:userid', function(req, res) {
     req.params.userid=con.escape(req.params.userid);
     var query = `SELECT m.name AS movieName, m.coverPicture AS moviePicture, su.userId, m.releaseDate AS releaseDate, m.movieId AS id ` +
@@ -232,7 +249,7 @@ app.get('/moviesPics/:userid', function(req, res) {
 });
 
 
-//needs to specify that the movies were released this year
+// get all movies a user loved that were released this year
 app.get('/moviesLoved/:userid', function(req, res) {
     req.params.userid=con.escape(req.params.userid);
     var thisYear=new Date();
@@ -243,7 +260,7 @@ app.get('/moviesLoved/:userid', function(req, res) {
         `(SELECT m.movieId AS movieName ` + 
         `FROM SiteUser su INNER JOIN MovieOrder mo ON su.userId = mo.userId ` + 
         `INNER JOIN Movie m ON m.movieId = mo.movieId ` + 
-        `WHERE YEAR(m.releaseDate)=2018);`;
+        `WHERE YEAR(m.releaseDate)=${thisYear});`;
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
@@ -255,22 +272,7 @@ app.get('/moviesLoved/:userid', function(req, res) {
 });
 
 
-app.get('/credited/:name', function(req, res) {
-    req.params.name=con.escape(req.params.name);
-    var query = `SELECT p.firstname || " " || p.lastname AS movieName, ` +
-        `c.role AS role, p.picture AS personPicture, m.name ` +
-        `FROM Professional p INNER JOIN Credit c ON p.personId = c.personId ` +
-        `INNER JOIN Movie m ON m.movieId = c.movieId ` +
-        `WHERE Name=${req.params.name}`;
-    con.query(query, function(err, results) {
-        if (err) {
-            console.log(err);
-            res.send("Error")
-        }
-        res.send(results);
-    })
-});
-
+// Get all movies in the database
 app.get('/allmovies/', function(req,res) {
     var query = `SELECT m.name AS movieName, m.releaseDate AS releaseDate, m.coverPicture AS moviePicture, m.movieId AS id ` +
                 `FROM Movie m`;
@@ -285,7 +287,7 @@ app.get('/allmovies/', function(req,res) {
 });
 
 
-
+// Get revenue for all movies within a given genre
 app.get('/revenue/:genre', function(req, res) {
     var query='SELECT res.genre, revenue FROM ' +
         '(SELECT g.genreName AS genre, SUM(mo.dollarAmount) AS revenue ' +
@@ -303,6 +305,7 @@ app.get('/revenue/:genre', function(req, res) {
     })
 });
 
+// See if there's a valid user with a given email and password combination-for login purposes
 app.get('/login/:email/:password', function(req, res) {
     req.params.email=con.escape(req.params.email);
     req.params.password=con.escape(req.params.password);
@@ -318,6 +321,7 @@ app.get('/login/:email/:password', function(req, res) {
     })
 });
 
+// Find a theater given a city
 app.get('/theater/:city', function(req, res) {
     req.params.city=con.escape(req.params.city);
     var query=`SELECT * FROM TheaterVendor tv INNER JOIN Vendor v ON v.vendorId = tv.vendorId ` +
@@ -331,8 +335,8 @@ app.get('/theater/:city', function(req, res) {
     })
 });
 
-
-app.post('/order/:movieId/:userId/:vendorId', function(req, res) {
+// Find an order given a movieId, userId, and a vendorId
+app.get('/order/:movieId/:userId/:vendorId', function(req, res) {
     req.params.movieId=con.escape(req.params.movieId);
     req.params.userId=con.escape(req.params.userId);
     req.params.vendorId=con.escape(req.params.vendorId);
@@ -341,11 +345,10 @@ app.post('/order/:movieId/:userId/:vendorId', function(req, res) {
         `WHERE movieId=${req.params.movieId} AND ` +
         `userId=${req.params.userId} AND ` +
         `vendorId=${req.params.vendorId};`;
-    console.log(query);
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
-            res.send("Error")
+            res.send("Error");
         }
         res.send(results);
     })
@@ -353,7 +356,7 @@ app.post('/order/:movieId/:userId/:vendorId', function(req, res) {
 
 //REPORT QUERIES
 
-//Find a user's top 3 movie studios that they've ordered from
+//Find a given user's top 3 movie studios that they've ordered from
 app.get('/topStudios/:userid', function(req, res) {
     req.params.userid=con.escape(req.params.userid);
     var query=`SELECT res.studio FROM ` +
@@ -375,7 +378,7 @@ app.get('/topStudios/:userid', function(req, res) {
 
 });
 
-// Find a user's favorite genre based on loved movies
+// Find a given user's favorite genre based on loved movies
 app.get('/favoriteGenre/:userid', function(req, res) {
     req.params.userid=con.escape(req.params.userid);
     var query=`SELECT res.genre FROM ` +
@@ -390,7 +393,7 @@ app.get('/favoriteGenre/:userid', function(req, res) {
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
-            res.send("Error")
+            res.send("Error");
         }
         res.send(results);
     })
@@ -415,7 +418,7 @@ app.get('/mostLoved', function(req, res) {
 });
 
 
-// Find a specific director's best selling films
+// Find a specific director's best selling films given their first and last name
 app.get('/directorsBestSelling/:first/:last', function(req, res) {
     req.params.first=con.escape(req.params.first);
     req.params.last=con.escape(req.params.last);
@@ -438,7 +441,7 @@ app.get('/directorsBestSelling/:first/:last', function(req, res) {
     })
 });
 
-// Find a year's box office hits
+// Find a given year's box office hits
 app.get('/yearBoxOfficeHit/:year', function(req, res) {
     req.params.year=con.escape(req.params.year);
     var query = `SELECT movieName, moviePicture, releaseDate, id  FROM ` +
@@ -451,18 +454,25 @@ app.get('/yearBoxOfficeHit/:year', function(req, res) {
     con.query(query, function(err, results) {
         if (err) {
             console.log(err);
-            res.send("Error")
+            res.send("Error");
         }
         res.send(results);
     })
 });
 
-
+/*
+route for creating theater ticket orders that takes the cost of a single ticket,
+vendorId, userId, and a movieId that corresponds to the theater the movie is seen at,
+the user seeing the movie, and what movie they're seeing
+ */
 app.post('/theaterOrder/:dollarAmount/:vendorId/:userId/:movieId', function(req, res) {
     req.params.dollarAmount=con.escape(req.params.dollarAmount);
     req.params.movieId=con.escape(req.params.movieId);
     req.params.userId=con.escape(req.params.userId);
     req.params.vendorId=con.escape(req.params.vendorId);
+    // get datetime and convert to mysql date formart
+    // found this to help with the process: https://stackoverflow.com/questions/2280104/convert-javascript-to-date-object-to-mysql-date-format-yyyy-mm-dd/27315670
+
     var orderTime=new Date().toISOString().slice(0, 19).replace('T', ' ');
     var query = `INSERT INTO MovieOrder(orderTime, dollarAmount, vendorId, userId, movieId) ` +
         `VALUES ('${orderTime}', ${req.params.dollarAmount}, ${req.params.vendorId}, ` +
@@ -472,6 +482,7 @@ app.post('/theaterOrder/:dollarAmount/:vendorId/:userId/:movieId', function(req,
             console.log(err);
             res.send("Error")
         }
+        // get the confirmation id from the movie order insert so we can link it to theater order
         var confirmationNumber=results.insertId;
         var query = `INSERT INTO TheaterOrder(confirmationNumber, ticketCount) ` +
             `VALUES (${confirmationNumber}, 1);`;
@@ -484,3 +495,4 @@ app.post('/theaterOrder/:dollarAmount/:vendorId/:userId/:movieId', function(req,
         })
     });
 });
+
