@@ -11,9 +11,14 @@ Team members:
  
  Steps to Run:
  
- 1) Clone Our Entire Repo
+ 1) Clone Our Entire Repo from Master
  
- 2) Run MySQL and Create a database using our ddl file as SOURCE for schema and our dml file as SOURCE for inserts
+ 2) Run MySQL (through XAMPP or command line tool) and Create a database using our ddl file as SOURCE for schema and our dml file as SOURCE for inserts
+ 
+ e.g. CREATE DATABASE dbdesignproject;
+      USE dbdesignproject;
+      SOURCE /Users/karanmarwah/Desktop/DatabaseHw/CS3200/project/ddl.sql;
+      SOURCE /Users/karanmarwah/Desktop/DatabaseHw/CS3200/project/dml.sql;
  
  3) cd into our 'dbdesignproject' folder
  
